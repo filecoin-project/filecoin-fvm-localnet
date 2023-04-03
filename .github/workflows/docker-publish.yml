@@ -5,8 +5,7 @@ on:
     branches:
       - main
     paths:
-      - .github/workflows/container-auto.yml
-      - Dockerfile-auto
+      - .github/workflows/docker-publish.yml
   repository_dispatch:
     types: [manual-run-auto]
   workflow_dispatch: {}
