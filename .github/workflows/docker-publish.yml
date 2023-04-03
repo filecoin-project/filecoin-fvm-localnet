@@ -49,6 +49,8 @@ jobs:
           context: .
           platforms: linux/amd64 #, linux/arm64
           file: Dockerfile
+          build-args: ['GOFLAGS=-tags=2k']
+          target: lotus-all-in-one
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
           cache-from: type=gha
