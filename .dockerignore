@@ -21,6 +21,7 @@
 /cmd/lotus-townhall/townhall/build
 /cmd/lotus-townhall/townhall/package-lock.json
 extern/filecoin-ffi/rust/target
+extern/test-vectors
 **/*.a
 **/*.pc
 /**/*/.DS_STORE
