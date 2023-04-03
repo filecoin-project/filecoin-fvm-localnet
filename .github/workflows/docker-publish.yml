@@ -29,7 +29,7 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v3
         with:
-          repository: filecoin-project/lotus
+          repository: hammertoe/lotus
           submodules: recursive
 
       - name: Setup Docker Buildx
