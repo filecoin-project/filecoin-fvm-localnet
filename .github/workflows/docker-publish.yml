@@ -47,7 +47,8 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          platforms: linux/amd64, linux/arm64
+          platforms: linux/arm64
+#          platforms: linux/amd64, linux/arm64
           file: Dockerfile
           build-args: GOFLAGS=-tags=2k
           target: lotus-all-in-one
