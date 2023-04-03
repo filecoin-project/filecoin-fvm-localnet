@@ -1,4 +1,4 @@
-name: lotus-multiarch
+name: lotus-localnet-multiarch
 
 on:
   push:
@@ -12,7 +12,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: lotus-localnet-multiarch
+  IMAGE_NAME: hammertoe/lotus-localnet-multiarch
 
 jobs:
   run-build-and-push-oci-image:
