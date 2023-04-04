@@ -50,7 +50,7 @@ jobs:
 #          platforms: linux/amd64, linux/arm64
           file: docker/devnet/Dockerfile
           build-args: |
-	    BUILD_VERSION=dev
+            BUILD_VERSION=dev
           target: boost-dev
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
