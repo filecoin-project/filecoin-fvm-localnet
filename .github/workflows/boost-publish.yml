@@ -1,18 +1,18 @@
-name: lotus-localnet-multiarch
+name: boost-localnet-multiarch
 
 on:
   push:
     branches:
       - main
     paths:
-      - .github/workflows/docker-publish.yml
+      - .github/workflows/boost-publish.yml
   repository_dispatch:
     types: [manual-run-auto]
   workflow_dispatch: {}
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: hammertoe/lotus-localnet-multiarch
+  IMAGE_NAME: hammertoe/boost-localnet-multiarch
 
 jobs:
   run-build-and-push-oci-image:
@@ -28,7 +28,7 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v3
         with:
-          repository: hammertoe/lotus
+          repository: filecoin-project/boost
           submodules: recursive
 
       - name: Setup Docker Buildx
@@ -46,12 +46,12 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          platforms: linux/amd64, linux/arm64
-          file: Dockerfile
+          platforms: linux/amd64
+#          platforms: linux/amd64, linux/arm64
+          file: docker/devnet/Dockerfile
           build-args: |
-            GOFLAGS=-tags=2k
-            FFI_BUILD_FROM_SOURCE=1
-          target: lotus-all-in-one
+	    BUILD_VERSION=dev
+          target: boost-dev
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
           cache-from: type=gha

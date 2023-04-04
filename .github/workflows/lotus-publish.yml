@@ -1,0 +1,58 @@
+name: lotus-localnet-multiarch
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/lotus-publish.yml
+  repository_dispatch:
+    types: [manual-run-auto]
+  workflow_dispatch: {}
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: hammertoe/lotus-localnet-multiarch
+
+jobs:
+  run-build-and-push-oci-image:
+    runs-on: self-hosted
+    permissions:
+      contents: write
+      packages: write
+      actions: write
+    outputs:
+      digest: ${{ steps.fetch_digest.outputs.digest }}
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+        with:
+          repository: hammertoe/lotus
+          submodules: recursive
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v2.2.1
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v2.1.0
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push
+        id: build
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          platforms: linux/amd64, linux/arm64
+          file: Dockerfile
+          build-args: |
+            GOFLAGS=-tags=2k
+            FFI_BUILD_FROM_SOURCE=1
+          target: lotus-all-in-one
+          push: true
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
