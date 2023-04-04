@@ -48,7 +48,7 @@ jobs:
           context: .
           platforms: linux/amd64
 #          platforms: linux/amd64, linux/arm64
-          file: docker/devnet/Dockerfile
+          file: docker/devnet/Dockerfile.source
           build-args: |
             BUILD_VERSION=dev
           target: boost-dev
