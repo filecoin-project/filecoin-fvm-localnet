@@ -51,7 +51,7 @@ jobs:
           file: docker/devnet/Dockerfile.source
           build-args: |
             BUILD_VERSION=dev
-            LOTUS_TEST_IMAGE=hammertoe/filecoin-fvm-localnet
+            LOTUS_TEST_IMAGE=ghcr.io/hammertoe/filecoin-fvm-localnet
           target: boost-dev
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
