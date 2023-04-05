@@ -46,7 +46,7 @@ jobs:
         id: build-lotus-dev
         uses: docker/build-push-action@v4
         with:
-          context: docker/devnet/lotus
+          context: "{{defaultContext}}:docker/devnet/lotus"
           platforms: linux/amd64, linux/arm64
           file: Dockerfile
           build-args: |
@@ -62,7 +62,7 @@ jobs:
         id: build-lotus-miner-dev
         uses: docker/build-push-action@v4
         with:
-          context: docker/devnet/lotus-miner
+          context: "{{defaultContext}}:docker/devnet/lotus-miner"
           platforms: linux/amd64, linux/arm64
           file: Dockerfile
           build-args: |
