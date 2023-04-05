@@ -1,0 +1,76 @@
+name: lotus-boost-dev
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/lotus-publish2.yml
+  repository_dispatch:
+    types: [manual-run-auto]
+  workflow_dispatch: {}
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: hammertoe/boost-localnet-multiarch
+
+jobs:
+  run-build-and-push-oci-image:
+    runs-on: self-hosted
+    permissions:
+      contents: write
+      packages: write
+      actions: write
+    outputs:
+      digest: ${{ steps.fetch_digest.outputs.digest }}
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+        with:
+#          repository: filecoin-project/boost
+          repository: hammertoe/boost
+          submodules: recursive
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v2.2.1
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v2.1.0
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push lotus-dev
+        id: build-lotus-dev
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          platforms: linux/amd64, linux/arm64
+          file: docker/devnet/lotus/Dockerfile
+          build-args: |
+            BUILD_VERSION=dev
+            FFI_BUILD_FROM_SOURCE=1
+            LOTUS_TEST_IMAGE=ghcr.io/hammertoe/lotus-localnet-multiarch:latest
+          push: true
+          tags: ${{ env.REGISTRY }}/hammertoe/lotus-dev:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          
+      - name: Build and push lotus-miner-dev
+        id: build-lotus-miner-dev
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          platforms: linux/amd64, linux/arm64
+          file: docker/devnet/lotus-miner/Dockerfile
+          build-args: |
+            BUILD_VERSION=dev
+            FFI_BUILD_FROM_SOURCE=1
+            LOTUS_TEST_IMAGE=ghcr.io/hammertoe/lotus-localnet-multiarch:latest
+          push: true
+          tags: ${{ env.REGISTRY }}/hammertoe/lotus-miner-dev:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      
