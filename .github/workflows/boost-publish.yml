@@ -43,7 +43,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push boost-dev
-        id: build
+        id: build-boost-dev
         uses: docker/build-push-action@v4
         with:
           context: .
@@ -59,7 +59,7 @@ jobs:
           cache-to: type=gha,mode=max
           
       - name: Build and push boost-http-dev
-        id: build
+        id: build-http-dev
         uses: docker/build-push-action@v4
         with:
           context: .
@@ -75,7 +75,7 @@ jobs:
           cache-to: type=gha,mode=max
           
       - name: Build and push boost-bitswap-dev
-        id: build
+        id: build-bitswap-dev
         uses: docker/build-push-action@v4
         with:
           context: .
