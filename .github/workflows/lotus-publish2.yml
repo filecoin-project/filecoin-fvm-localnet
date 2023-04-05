@@ -48,7 +48,7 @@ jobs:
         with:
           context: ./docker/devnet/lotus
           platforms: linux/amd64, linux/arm64
-          file: Dockerfile
+          file: ./docker/devnet/lotus/Dockerfile
           build-args: |
             BUILD_VERSION=dev
             FFI_BUILD_FROM_SOURCE=1
@@ -64,7 +64,7 @@ jobs:
         with:
           context: ./docker/devnet/lotus-miner
           platforms: linux/amd64, linux/arm64
-          file: Dockerfile
+          file: ./docker/devnet/lotus-miner/Dockerfile
           build-args: |
             BUILD_VERSION=dev
             FFI_BUILD_FROM_SOURCE=1
