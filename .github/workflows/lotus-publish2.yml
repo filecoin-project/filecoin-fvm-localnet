@@ -46,9 +46,9 @@ jobs:
         id: build-lotus-dev
         uses: docker/build-push-action@v4
         with:
-          context: .
+          context: docker/devnet/lotus
           platforms: linux/amd64, linux/arm64
-          file: docker/devnet/lotus/Dockerfile
+          file: Dockerfile
           build-args: |
             BUILD_VERSION=dev
             FFI_BUILD_FROM_SOURCE=1
@@ -62,9 +62,9 @@ jobs:
         id: build-lotus-miner-dev
         uses: docker/build-push-action@v4
         with:
-          context: .
+          context: docker/devnet/lotus-miner
           platforms: linux/amd64, linux/arm64
-          file: docker/devnet/lotus-miner/Dockerfile
+          file: Dockerfile
           build-args: |
             BUILD_VERSION=dev
             FFI_BUILD_FROM_SOURCE=1
