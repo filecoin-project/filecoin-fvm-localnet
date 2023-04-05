@@ -59,8 +59,8 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           
-      - name: Build and push boost-http-dev
-        id: build-http-dev
+      - name: Build and push booster-http-dev
+        id: build-booster-http-dev
         uses: docker/build-push-action@v4
         with:
           context: .
@@ -70,14 +70,14 @@ jobs:
             BUILD_VERSION=dev
             FFI_BUILD_FROM_SOURCE=1
             LOTUS_TEST_IMAGE=ghcr.io/hammertoe/lotus-localnet-multiarch:latest
-          target: boost-http-dev
+          target: booster-http-dev
           push: true
-          tags: ${{ env.REGISTRY }}/hammertoe/boost-http-dev:latest
+          tags: ${{ env.REGISTRY }}/hammertoe/booster-http-dev:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
           
       - name: Build and push boost-bitswap-dev
-        id: build-bitswap-dev
+        id: build-booster-bitswap-dev
         uses: docker/build-push-action@v4
         with:
           context: .
@@ -87,8 +87,8 @@ jobs:
             BUILD_VERSION=dev
             FFI_BUILD_FROM_SOURCE=1
             LOTUS_TEST_IMAGE=ghcr.io/hammertoe/lotus-localnet-multiarch:latest
-          target: boost-bitswap-dev
+          target: booster-bitswap-dev
           push: true
-          tags: ${{ env.REGISTRY }}/hammertoe/boost-bitswap-dev:latest
+          tags: ${{ env.REGISTRY }}/hammertoe/booster-bitswap-dev:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
