@@ -42,19 +42,50 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push
+      - name: Build and push boost-dev
         id: build
         uses: docker/build-push-action@v4
         with:
           context: .
-          platforms: linux/amd64
-#          platforms: linux/amd64, linux/arm64
+          platforms: linux/amd64, linux/arm64
           file: docker/devnet/Dockerfile.source
           build-args: |
             BUILD_VERSION=dev
             LOTUS_TEST_IMAGE=ghcr.io/hammertoe/lotus-localnet-multiarch:latest
           target: boost-dev
           push: true
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          tags: ${{ env.REGISTRY }}/boost-dev:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          
+      - name: Build and push boost-http-dev
+        id: build
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          platforms: linux/amd64, linux/arm64
+          file: docker/devnet/Dockerfile.source
+          build-args: |
+            BUILD_VERSION=dev
+            LOTUS_TEST_IMAGE=ghcr.io/hammertoe/lotus-localnet-multiarch:latest
+          target: boost-http-dev
+          push: true
+          tags: ${{ env.REGISTRY }}/boost-http-dev:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          
+      - name: Build and push boost-bitswap-dev
+        id: build
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          platforms: linux/amd64, linux/arm64
+          file: docker/devnet/Dockerfile.source
+          build-args: |
+            BUILD_VERSION=dev
+            LOTUS_TEST_IMAGE=ghcr.io/hammertoe/lotus-localnet-multiarch:latest
+          target: boost-bitswap-dev
+          push: true
+          tags: ${{ env.REGISTRY }}/boost-bitswap-dev:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
