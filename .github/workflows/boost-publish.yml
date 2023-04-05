@@ -54,7 +54,7 @@ jobs:
             LOTUS_TEST_IMAGE=ghcr.io/hammertoe/lotus-localnet-multiarch:latest
           target: boost-dev
           push: true
-          tags: ${{ env.REGISTRY }}/boost-dev:latest
+          tags: ${{ env.REGISTRY }}/hammertoe/boost-dev:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
           
@@ -70,7 +70,7 @@ jobs:
             LOTUS_TEST_IMAGE=ghcr.io/hammertoe/lotus-localnet-multiarch:latest
           target: boost-http-dev
           push: true
-          tags: ${{ env.REGISTRY }}/boost-http-dev:latest
+          tags: ${{ env.REGISTRY }}/hammertoe/boost-http-dev:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
           
@@ -86,6 +86,6 @@ jobs:
             LOTUS_TEST_IMAGE=ghcr.io/hammertoe/lotus-localnet-multiarch:latest
           target: boost-bitswap-dev
           push: true
-          tags: ${{ env.REGISTRY }}/boost-bitswap-dev:latest
+          tags: ${{ env.REGISTRY }}/hammertoe/boost-bitswap-dev:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
