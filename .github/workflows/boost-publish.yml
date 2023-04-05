@@ -28,8 +28,7 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v3
         with:
-          repository: hammertoe/boost
-#          repository: filecoin-project/boost
+          repository: filecoin-project/boost
           submodules: recursive
 
       - name: Setup Docker Buildx
@@ -51,6 +50,7 @@ jobs:
           file: docker/devnet/Dockerfile.source
           build-args: |
             BUILD_VERSION=dev
+            FFI_BUILD_FROM_SOURCE=1
             LOTUS_TEST_IMAGE=ghcr.io/hammertoe/lotus-localnet-multiarch:latest
           target: boost-dev
           push: true
@@ -67,6 +67,7 @@ jobs:
           file: docker/devnet/Dockerfile.source
           build-args: |
             BUILD_VERSION=dev
+            FFI_BUILD_FROM_SOURCE=1
             LOTUS_TEST_IMAGE=ghcr.io/hammertoe/lotus-localnet-multiarch:latest
           target: boost-http-dev
           push: true
@@ -83,6 +84,7 @@ jobs:
           file: docker/devnet/Dockerfile.source
           build-args: |
             BUILD_VERSION=dev
+            FFI_BUILD_FROM_SOURCE=1
             LOTUS_TEST_IMAGE=ghcr.io/hammertoe/lotus-localnet-multiarch:latest
           target: boost-bitswap-dev
           push: true
