@@ -42,6 +42,23 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Docker meta
+        id: meta-lotus-dev
+        uses: docker/metadata-action@v4
+        with:
+          # list of Docker images to use as base name for tags
+          images: |
+            ${{ env.REGISTRY }}/hammertoe/lotus-dev
+          # generate Docker tags based on the following events/attributes
+          tags: |
+            type=schedule
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+            type=sha
+            
       - name: Build and push lotus-dev
         id: build-lotus-dev
         uses: docker/build-push-action@v4
@@ -54,10 +71,28 @@ jobs:
             FFI_BUILD_FROM_SOURCE=1
             LOTUS_TEST_IMAGE=ghcr.io/hammertoe/lotus-localnet-multiarch:latest
           push: true
-          tags: ${{ env.REGISTRY }}/hammertoe/lotus-dev:latest
+          tags: ${{ steps.meta-lotus-dev.outputs.tags }}
+          labels: ${{ steps.meta-lotus-dev.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
           
+      - name: Docker meta
+        id: meta-lotus-miner-dev
+        uses: docker/metadata-action@v4
+        with:
+          # list of Docker images to use as base name for tags
+          images: |
+            ${{ env.REGISTRY }}/hammertoe/boost-dev
+          # generate Docker tags based on the following events/attributes
+          tags: |
+            type=schedule
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+            type=sha
+            
       - name: Build and push lotus-miner-dev
         id: build-lotus-miner-dev
         uses: docker/build-push-action@v4
@@ -70,7 +105,8 @@ jobs:
             FFI_BUILD_FROM_SOURCE=1
             LOTUS_TEST_IMAGE=ghcr.io/hammertoe/lotus-localnet-multiarch:latest
           push: true
-          tags: ${{ env.REGISTRY }}/hammertoe/lotus-miner-dev:latest
+          tags: ${{ steps.meta-lotus-miner-dev.outputs.tags }}
+          labels: ${{ steps.meta-lotus-miner-dev.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
       
