@@ -40,7 +40,24 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-
+          
+      - name: Docker meta
+        id: meta-lotus-dev
+        uses: docker/metadata-action@v4
+        with:
+          # list of Docker images to use as base name for tags
+          images: |
+            ${{ env.REGISTRY }}/hammertoe/lotus-dev
+          # generate Docker tags based on the following events/attributes
+          tags: |
+            type=schedule
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+            type=sha
+            
       - name: Build and push
         id: build
         uses: docker/build-push-action@v4
@@ -53,6 +70,7 @@ jobs:
             FFI_BUILD_FROM_SOURCE=1
           target: lotus-all-in-one
           push: true
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          tags: ${{ steps.meta-lotus-dev.outputs.tags }}
+          labels: ${{ steps.meta-lotus-dev.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
