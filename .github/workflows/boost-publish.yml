@@ -73,7 +73,7 @@ jobs:
           target: boost-dev
           push: true
           tags: ${{ steps.meta_boost_dev.outputs.tags }}
-          labels: ${{ steps.meta_boost_dev.outputs.labels }}
+          #labels: ${{ steps.meta_boost_dev.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
           
@@ -143,6 +143,6 @@ jobs:
           target: booster-bitswap-dev
           push: true
           tags: ${{ steps.meta_bitswap_http_dev.outputs.tags }}
-          labels: ${{ steps.meta_bitswap_http_dev.outputs.labels }}
+          #labels: ${{ steps.meta_bitswap_http_dev.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
