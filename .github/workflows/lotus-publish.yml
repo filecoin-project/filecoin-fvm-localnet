@@ -71,6 +71,6 @@ jobs:
           target: lotus-all-in-one
           push: true
           tags: ${{ steps.meta_lotus_dev.outputs.tags }}
-          labels: ${{ steps.meta_lotus_dev.outputs.labels }}
+          #labels: ${{ steps.meta_lotus_dev.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
