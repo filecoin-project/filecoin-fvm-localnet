@@ -42,7 +42,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
           
       - name: Docker meta
-        id: meta-lotus-dev
+        id: meta_lotus_dev
         uses: docker/metadata-action@v4
         with:
           # list of Docker images to use as base name for tags
@@ -70,7 +70,7 @@ jobs:
             FFI_BUILD_FROM_SOURCE=1
           target: lotus-all-in-one
           push: true
-          tags: ${{ steps.meta-lotus-dev.outputs.tags }}
-          labels: ${{ steps.meta-lotus-dev.outputs.labels }}
+          tags: ${{ steps.meta_lotus_dev.outputs.tags }}
+          labels: ${{ steps.meta_lotus_dev.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
