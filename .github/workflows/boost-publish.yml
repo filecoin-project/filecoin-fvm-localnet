@@ -43,7 +43,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
           
       - name: Docker meta
-        id: meta-boost-dev
+        id: meta_boost_dev
         uses: docker/metadata-action@v4
         with:
           # list of Docker images to use as base name for tags
@@ -72,13 +72,13 @@ jobs:
             LOTUS_TEST_IMAGE=ghcr.io/hammertoe/lotus-localnet-multiarch:latest
           target: boost-dev
           push: true
-          tags: ${{ steps.meta-boost-dev.outputs.tags }}
-          labels: ${{ steps.meta-boost-dev.outputs.labels }}
+          tags: ${{ steps.meta_boost_dev.outputs.tags }}
+          labels: ${{ steps.meta_boost_dev.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
           
       - name: Docker meta
-        id: meta-booster-http-dev
+        id: meta_booster_http_dev
         uses: docker/metadata-action@v4
         with:
           # list of Docker images to use as base name for tags
@@ -107,13 +107,13 @@ jobs:
             LOTUS_TEST_IMAGE=ghcr.io/hammertoe/lotus-localnet-multiarch:latest
           target: booster-http-dev
           push: true
-          tags: ${{ steps.meta-booster-http-dev.outputs.tags }}
-          labels: ${{ steps.meta-booster-http-dev.outputs.labels }}
+          tags: ${{ steps.meta_booster_http_dev.outputs.tags }}
+          labels: ${{ steps.meta_booster_http_dev.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
           
       - name: Docker meta
-        id: meta-booster-bitswap-dev
+        id: meta_bitswap_http_dev
         uses: docker/metadata-action@v4
         with:
           # list of Docker images to use as base name for tags
@@ -142,7 +142,7 @@ jobs:
             LOTUS_TEST_IMAGE=ghcr.io/hammertoe/lotus-localnet-multiarch:latest
           target: booster-bitswap-dev
           push: true
-          tags: ${{ steps.meta-booster-bitswap-dev.outputs.tags }}
-          labels: ${{ steps.meta-booster-bitswap-dev.outputs.labels }}
+          tags: ${{ steps.meta_bitswap_http_dev.outputs.tags }}
+          labels: ${{ steps.meta_bitswap_http_dev.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max

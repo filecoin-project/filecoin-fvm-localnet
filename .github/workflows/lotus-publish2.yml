@@ -43,7 +43,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Docker meta
-        id: meta-lotus-dev
+        id: meta_lotus_dev
         uses: docker/metadata-action@v4
         with:
           # list of Docker images to use as base name for tags
@@ -71,13 +71,13 @@ jobs:
             FFI_BUILD_FROM_SOURCE=1
             LOTUS_TEST_IMAGE=ghcr.io/hammertoe/lotus-localnet-multiarch:latest
           push: true
-          tags: ${{ steps.meta-lotus-dev.outputs.tags }}
-          labels: ${{ steps.meta-lotus-dev.outputs.labels }}
+          tags: ${{ steps.meta_lotus_dev.outputs.tags }}
+          labels: ${{ steps.meta_lotus_dev.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
           
       - name: Docker meta
-        id: meta-lotus-miner-dev
+        id: meta_lotus_miner_dev
         uses: docker/metadata-action@v4
         with:
           # list of Docker images to use as base name for tags
@@ -105,8 +105,8 @@ jobs:
             FFI_BUILD_FROM_SOURCE=1
             LOTUS_TEST_IMAGE=ghcr.io/hammertoe/lotus-localnet-multiarch:latest
           push: true
-          tags: ${{ steps.meta-lotus-miner-dev.outputs.tags }}
-          labels: ${{ steps.meta-lotus-miner-dev.outputs.labels }}
+          tags: ${{ steps.meta_lotus_miner_dev.outputs.tags }}
+          labels: ${{ steps.meta_lotus_miner_dev.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
       
