@@ -66,7 +66,7 @@ jobs:
           platforms: linux/amd64, linux/arm64
           file: ./docker/devnet/lotus/Dockerfile
           build-args: |
-            LOTUS_TEST_IMAGE=ghcr.io/hammertoe/boost-localnet-multiarch:latest
+            LOTUS_TEST_IMAGE=ghcr.io/hammertoe/boost-localnet-multiarch:main
           push: true
           tags: ${{ steps.meta_lotus_dev.outputs.tags }}
           
@@ -95,7 +95,7 @@ jobs:
           platforms: linux/amd64, linux/arm64
           file: ./docker/devnet/lotus-miner/Dockerfile
           build-args: |
-            LOTUS_TEST_IMAGE=ghcr.io/hammertoe/boost-localnet-multiarch:latest
+            LOTUS_TEST_IMAGE=ghcr.io/hammertoe/boost-localnet-multiarch:main
           push: true
           tags: ${{ steps.meta_lotus_miner_dev.outputs.tags }}
 
@@ -124,7 +124,7 @@ jobs:
           platforms: linux/amd64, linux/arm64
           file: docker/devnet/Dockerfile.source
           build-args: |
-            LOTUS_TEST_IMAGE=ghcr.io/hammertoe/boost-localnet-multiarch:latest
+            LOTUS_TEST_IMAGE=ghcr.io/hammertoe/boost-localnet-multiarch:main
           target: booster-http-dev
           push: true
           tags: ${{ steps.meta_booster_http_dev.outputs.tags }}
@@ -154,7 +154,7 @@ jobs:
           platforms: linux/amd64, linux/arm64
           file: docker/devnet/Dockerfile.source
           build-args: |
-            LOTUS_TEST_IMAGE=ghcr.io/hammertoe/boost-localnet-multiarch:latest
+            LOTUS_TEST_IMAGE=ghcr.io/hammertoe/boost-localnet-multiarch:main
           target: booster-bitswap-dev
           push: true
           tags: ${{ steps.meta_bitswap_http_dev.outputs.tags }}
