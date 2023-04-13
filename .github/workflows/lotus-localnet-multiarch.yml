@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - .github/workflows/lotus-publish.yml
+      - .github/workflows/lotus-localnet-multiarch.yml
   repository_dispatch:
     types: [manual-run-auto]
   workflow_dispatch: {}
