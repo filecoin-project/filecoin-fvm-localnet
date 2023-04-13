@@ -1,18 +1,18 @@
-name: lotus-node-miner-dev
+name: docker-compose-images
 
 on:
   push:
     branches:
       - main
     paths:
-      - .github/workflows/lotus-publish2.yml
+      - .github/workflows/docker-compose-images.yml
   repository_dispatch:
     types: [manual-run-auto]
   workflow_dispatch: {}
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: hammertoe/lotus-localnet-multiarch
+  IMAGE_NAME: hammertoe/boost-localnet-multiarch
 
 jobs:
   run-build-and-push-oci-image:
@@ -28,7 +28,7 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v3
         with:
-          repository: hammertoe/lotus
+          repository: hammertoe/boost
           submodules: recursive
 
       - name: Setup Docker Buildx
@@ -66,14 +66,9 @@ jobs:
           platforms: linux/amd64, linux/arm64
           file: ./docker/devnet/lotus/Dockerfile
           build-args: |
-            BUILD_VERSION=dev
-            FFI_BUILD_FROM_SOURCE=1
-            LOTUS_TEST_IMAGE=ghcr.io/hammertoe/lotus-localnet-multiarch:latest
+            LOTUS_TEST_IMAGE=ghcr.io/hammertoe/boost-localnet-multiarch:latest
           push: true
           tags: ${{ steps.meta_lotus_dev.outputs.tags }}
-          labels: ${{ steps.meta_lotus_dev.outputs.labels }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
           
       - name: Docker meta
         id: meta_lotus_miner_dev
@@ -100,12 +95,66 @@ jobs:
           platforms: linux/amd64, linux/arm64
           file: ./docker/devnet/lotus-miner/Dockerfile
           build-args: |
-            BUILD_VERSION=dev
-            FFI_BUILD_FROM_SOURCE=1
-            LOTUS_TEST_IMAGE=ghcr.io/hammertoe/lotus-localnet-multiarch:latest
+            LOTUS_TEST_IMAGE=ghcr.io/hammertoe/boost-localnet-multiarch:latest
           push: true
           tags: ${{ steps.meta_lotus_miner_dev.outputs.tags }}
-          labels: ${{ steps.meta_lotus_miner_dev.outputs.labels }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-      
+
+      - name: Docker meta
+        id: meta_booster_http_dev
+        uses: docker/metadata-action@v4
+        with:
+          # list of Docker images to use as base name for tags
+          images: |
+            ${{ env.REGISTRY }}/hammertoe/boost-http-dev
+          # generate Docker tags based on the following events/attributes
+          tags: |
+            type=schedule
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+            type=sha
+            
+      - name: Build and push booster-http-dev
+        id: build-booster-http-dev
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          platforms: linux/amd64, linux/arm64
+          file: docker/devnet/Dockerfile.source
+          build-args: |
+            LOTUS_TEST_IMAGE=ghcr.io/hammertoe/boost-localnet-multiarch:latest
+          target: booster-http-dev
+          push: true
+          tags: ${{ steps.meta_booster_http_dev.outputs.tags }}
+          
+      - name: Docker meta
+        id: meta_bitswap_http_dev
+        uses: docker/metadata-action@v4
+        with:
+          # list of Docker images to use as base name for tags
+          images: |
+            ${{ env.REGISTRY }}/hammertoe/boost-bitswap-dev
+          # generate Docker tags based on the following events/attributes
+          tags: |
+            type=schedule
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+            type=sha
+          
+      - name: Build and push boost-bitswap-dev
+        id: build-booster-bitswap-dev
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          platforms: linux/amd64, linux/arm64
+          file: docker/devnet/Dockerfile.source
+          build-args: |
+            LOTUS_TEST_IMAGE=ghcr.io/hammertoe/boost-localnet-multiarch:latest
+          target: booster-bitswap-dev
+          push: true
+          tags: ${{ steps.meta_bitswap_http_dev.outputs.tags }}
