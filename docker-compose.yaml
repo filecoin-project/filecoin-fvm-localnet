@@ -16,6 +16,15 @@ services:
     container_name: lotus
     image: ${IMAGE}
     entrypoint: ['/app/entrypoint-lotus.sh']
+    healthcheck:
+      test: >-
+        curl -s -X POST -H "Content-Type: application/json"
+        --data '{ "jsonrpc": "2.0", "method": "Filecoin.ChainHead", "params": [], "id": 1 }'
+        http://lotus:1234/rpc/v0 || exit 1
+      interval: 20s
+      retries: 5
+      start_period: 600s
+      timeout: 10s
     ports:
       - "1234:1234"
       - "9090:9090"
@@ -39,8 +48,16 @@ services:
     container_name: lotus-miner
     image: ${IMAGE}
     entrypoint: ['/app/entrypoint-lotus-miner.sh']
+    healthcheck:
+      test: >-
+        curl -s http://lotus-miner:2345 || exit 1
+      interval: 20s
+      retries: 5
+      start_period: 600s
+      timeout: 10s
     depends_on:
-      - lotus
+      lotus:
+        condition: service_healthy
     ports:
       - "2345:2345"
     environment:
@@ -67,9 +84,18 @@ services:
     container_name: boost
     image: ${IMAGE}
     entrypoint: ['/app/entrypoint-boost.sh']    
+    healthcheck:
+      test: >-
+        curl -s http://boost:8080 || exit 1
+      interval: 20s
+      retries: 5
+      start_period: 600s
+      timeout: 10s
     depends_on:
-      - lotus
-      - lotus-miner
+        lotus:
+          condition: service_healthy
+        lotus-miner:
+          condition: service_healthy
     ports:
       - "8080:8080"
       - "1288:1288" # For the /metrics endpoint
@@ -93,6 +119,9 @@ services:
     container_name: booster-http
     image: ${IMAGE}
     entrypoint: ['/app/entrypoint-booster-http.sh']
+    depends_on:
+        boost:
+          condition: service_healthy
     ports:
       - "7777:7777"
     environment:
@@ -113,6 +142,9 @@ services:
     container_name: booster-bitswap
     image: ${IMAGE}
     entrypoint: ['/app/entrypoint-booster-bitswap.sh']
+    depends_on:
+        boost:
+          condition: service_healthy
     ports:
       - "8888:8888"
     environment:
