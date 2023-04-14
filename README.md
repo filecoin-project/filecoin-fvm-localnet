@@ -79,7 +79,7 @@ In order to transact with the network, you will need some funds (tFIL) in your w
 
 ## Usage notes
 
-- This network has a sector size of 2KiB. This is set in the .env file. This means that the largest storage deals you can make with the miner will be 2KiB. If you want an 8MiB network and storage deals of up to 8MiB, then uncomment the appropriate `SECTOR_SIZE` line and restart docker compose.
+- This network has a sector size of 2KiB. This is set in the `.env` file. This means that the largest storage deals you can make with the miner will be 2KiB. If you want an 8MiB network and storage deals of up to 8MiB, then uncomment the appropriate `SECTOR_SIZE` line and restart docker compose.
 
 - The first time you run `docker compose up`, it will need to download ~3GB of data to start the network (1GB of docker images, and 2GB of initial proof data for the network genesis). If you run the 8MiB network, it will need to download about 6GB of proof data to start up.
 
