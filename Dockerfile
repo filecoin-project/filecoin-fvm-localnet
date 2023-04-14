@@ -11,6 +11,7 @@ EXPOSE 8080
 RUN apt update && apt install -y \
       curl \
       hwloc \
+      binutils \
       jq
 
 ## Fix missing lib libhwloc.so.5
@@ -26,6 +27,9 @@ COPY --from=boost /go/src/booster-bitswap /usr/local/bin/
 COPY --from=lotus-test /usr/local/bin/lotus /usr/local/bin/
 COPY --from=lotus-test /usr/local/bin/lotus-miner /usr/local/bin/
 COPY --from=lotus-test /usr/local/bin/lotus-seed /usr/local/bin/
+
+# Strip the debugging from the files to reduce the image size by about half
+RUN strip /usr/local/bin/*
 
 COPY boost/docker/devnet/boost/entrypoint.sh /app/entrypoint-boost.sh
 COPY boost/docker/devnet/booster-http/entrypoint.sh /app/entrypoint-booster-http.sh
