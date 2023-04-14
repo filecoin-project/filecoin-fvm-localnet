@@ -16,7 +16,7 @@ env:
 
 jobs:
   run-build-and-push-oci-image:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     permissions:
       contents: write
       packages: write
@@ -28,7 +28,7 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v3
         with:
-          repository: hammertoe/boost
+          repository: ''
           submodules: recursive
 
       - name: Setup Docker Buildx
@@ -42,12 +42,12 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Docker meta
-        id: meta_lotus_dev
+        id: meta
         uses: docker/metadata-action@v4
         with:
           # list of Docker images to use as base name for tags
           images: |
-            ${{ env.REGISTRY }}/hammertoe/lotus-dev
+            ${{ env.REGISTRY }}/hammertoe/filecoin-fvm-localnet
           # generate Docker tags based on the following events/attributes
           tags: |
             type=schedule
@@ -58,103 +58,12 @@ jobs:
             type=semver,pattern={{major}}
             type=sha
             
-      - name: Build and push lotus-dev
-        id: build-lotus-dev
-        uses: docker/build-push-action@v4
-        with:
-          context: ./docker/devnet/lotus
-          platforms: linux/amd64, linux/arm64
-          file: ./docker/devnet/lotus/Dockerfile
-          build-args: |
-            LOTUS_TEST_IMAGE=ghcr.io/hammertoe/boost-localnet-multiarch:main
-          push: true
-          tags: ${{ steps.meta_lotus_dev.outputs.tags }}
-          
-      - name: Docker meta
-        id: meta_lotus_miner_dev
-        uses: docker/metadata-action@v4
-        with:
-          # list of Docker images to use as base name for tags
-          images: |
-            ${{ env.REGISTRY }}/hammertoe/lotus-miner-dev
-          # generate Docker tags based on the following events/attributes
-          tags: |
-            type=schedule
-            type=ref,event=branch
-            type=ref,event=pr
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
-            type=semver,pattern={{major}}
-            type=sha
-            
-      - name: Build and push lotus-miner-dev
-        id: build-lotus-miner-dev
-        uses: docker/build-push-action@v4
-        with:
-          context: ./docker/devnet/lotus-miner
-          platforms: linux/amd64, linux/arm64
-          file: ./docker/devnet/lotus-miner/Dockerfile
-          build-args: |
-            LOTUS_TEST_IMAGE=ghcr.io/hammertoe/boost-localnet-multiarch:main
-          push: true
-          tags: ${{ steps.meta_lotus_miner_dev.outputs.tags }}
-
-      - name: Docker meta
-        id: meta_booster_http_dev
-        uses: docker/metadata-action@v4
-        with:
-          # list of Docker images to use as base name for tags
-          images: |
-            ${{ env.REGISTRY }}/hammertoe/boost-http-dev
-          # generate Docker tags based on the following events/attributes
-          tags: |
-            type=schedule
-            type=ref,event=branch
-            type=ref,event=pr
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
-            type=semver,pattern={{major}}
-            type=sha
-            
-      - name: Build and push booster-http-dev
-        id: build-booster-http-dev
+      - name: Build and push
+        id: build
         uses: docker/build-push-action@v4
         with:
           context: .
           platforms: linux/amd64, linux/arm64
-          file: docker/devnet/Dockerfile.source
-          build-args: |
-            LOTUS_TEST_IMAGE=ghcr.io/hammertoe/boost-localnet-multiarch:main
-          target: booster-http-dev
+          file: Dockerfile
           push: true
-          tags: ${{ steps.meta_booster_http_dev.outputs.tags }}
-          
-      - name: Docker meta
-        id: meta_bitswap_http_dev
-        uses: docker/metadata-action@v4
-        with:
-          # list of Docker images to use as base name for tags
-          images: |
-            ${{ env.REGISTRY }}/hammertoe/boost-bitswap-dev
-          # generate Docker tags based on the following events/attributes
-          tags: |
-            type=schedule
-            type=ref,event=branch
-            type=ref,event=pr
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
-            type=semver,pattern={{major}}
-            type=sha
-          
-      - name: Build and push boost-bitswap-dev
-        id: build-booster-bitswap-dev
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          platforms: linux/amd64, linux/arm64
-          file: docker/devnet/Dockerfile.source
-          build-args: |
-            LOTUS_TEST_IMAGE=ghcr.io/hammertoe/boost-localnet-multiarch:main
-          target: booster-bitswap-dev
-          push: true
-          tags: ${{ steps.meta_bitswap_http_dev.outputs.tags }}
+          tags: ${{ steps.meta.outputs.tags }}
