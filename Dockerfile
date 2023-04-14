@@ -25,6 +25,8 @@ COPY --from=boost /go/src/booster-http /usr/local/bin/
 COPY --from=boost /go/src/booster-bitswap /usr/local/bin/
 COPY --from=lotus-test /usr/local/bin/lotus /usr/local/bin/
 COPY --from=lotus-test /usr/local/bin/lotus-miner /usr/local/bin/
+COPY --from=lotus-test /usr/local/bin/lotus-seed /usr/local/bin/
+
 COPY boost/docker/devnet/boost/entrypoint.sh /app/entrypoint-boost.sh
 COPY boost/docker/devnet/booster-http/entrypoint.sh /app/entrypoint-booster-http.sh
 COPY boost/docker/devnet/booster-bitswap/entrypoint.sh /app/entrypoint-booster-bitswap.sh
@@ -32,8 +34,8 @@ COPY boost/docker/devnet/lotus/entrypoint.sh /app/entrypoint-lotus.sh
 COPY boost/docker/devnet/lotus-miner/entrypoint.sh /app/entrypoint-lotus-miner.sh
 
 ## Test everything starts
-RUN lotus -v && lotus-miner -v && boost -v && booster-http -v \
-      && booster-bitswap version
+RUN lotus -v && lotus-miner -v && lotus-seed -v && \
+      boost -v && booster-http -v && booster-bitswap version
       
 ENTRYPOINT ["/bin/bash"]
 
