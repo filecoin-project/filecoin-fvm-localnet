@@ -28,7 +28,7 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v3
         with:
-          repository: .
+          repository: ''
           submodules: recursive
 
       - name: Setup Docker Buildx
