@@ -69,7 +69,7 @@ jobs:
             BUILD_VERSION=dev
             FFI_BUILD_FROM_SOURCE=1
             LOTUS_TEST_IMAGE=ghcr.io/hammertoe/lotus-localnet-multiarch:latest
-          target: runner
+          target: builder
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           cache-from: type=gha
