@@ -23,7 +23,7 @@ services:
         http://lotus:1234/rpc/v0 || exit 1
       interval: 20s
       retries: 5
-      start_period: 600s
+      start_period: 6000s
       timeout: 10s
     ports:
       - "1234:1234"
@@ -36,7 +36,7 @@ services:
       - LOTUS_LIBP2P_LISTENADDRESSES=/ip4/0.0.0.0/tcp/9090
       - LOTUS_SKIP_GENESIS_CHECK=_yes_
       - GENESIS_PATH=/var/lib/genesis
-      - SECTOR_SIZE=8388608
+      - SECTOR_SIZE=${SECTOR_SIZE}
     restart: unless-stopped
     logging: *default-logging
     volumes:
@@ -53,7 +53,7 @@ services:
         curl -s http://lotus-miner:2345 || exit 1
       interval: 20s
       retries: 5
-      start_period: 600s
+      start_period: 6000s
       timeout: 10s
     depends_on:
       lotus:
@@ -71,7 +71,7 @@ services:
       - LOTUS_SEALING_WAITDEALSDELAY=20s
       - LOTUS_SKIP_GENESIS_CHECK=_yes_
       - GENESIS_PATH=/var/lib/genesis
-      - SECTOR_SIZE=8388608
+      - SECTOR_SIZE=${SECTOR_SIZE}
     restart: unless-stopped
     logging: *default-logging
     volumes:
@@ -89,7 +89,7 @@ services:
         curl -s http://boost:8080 || exit 1
       interval: 20s
       retries: 5
-      start_period: 600s
+      start_period: 6000s
       timeout: 10s
     depends_on:
         lotus:
