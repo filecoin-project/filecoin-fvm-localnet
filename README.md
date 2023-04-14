@@ -59,16 +59,20 @@ In order to transact with the network, you will need some funds (tFIL) in your w
 1. First find out the `t4` address of your wallet from its `0x` address shown in Metamask:
 
     ```
-    % docker compose exec lotus lotus evm stat 0x403D6E3Aff483A3c727Df731c6720A49E36De3eb
-Filecoin address:  t410fia6w4ox7ja5dy4t564y4m4qkjhrw3y7ldcn3u3q
-Eth address:  0x403d6e3aff483a3c727df731c6720a49e36de3eb
-Actor lookup failed for faddr t410fia6w4ox7ja5dy4t564y4m4qkjhrw3y7ldcn3u3q with error: resolution lookup failed (t410fia6w4ox7ja5dy4t564y4m4qkjhrw3y7ldcn3u3q): resolve address t410fia6w4ox7ja5dy4t564y4m4qkjhrw3y7ldcn3u3q: actor not found
+    docker compose exec lotus lotus evm stat 0x403D6E3Aff483A3c727Df731c6720A49E36De3eb
+    ```
+    ```
+    Filecoin address:  t410fia6w4ox7ja5dy4t564y4m4qkjhrw3y7ldcn3u3q
+    Eth address:  0x403d6e3aff483a3c727df731c6720a49e36de3eb
+    Actor lookup failed for faddr t410fia6w4ox7ja5dy4t564y4m4qkjhrw3y7ldcn3u3q with error: resolution lookup failed (t410fia6w4ox7ja5dy4t564y4m4qkjhrw3y7ldcn3u3q): resolve address t410fia6w4ox7ja5dy4t564y4m4qkjhrw3y7ldcn3u3q: actor not found
     ```
 
 1. Then send some funds to that wallet using the t4 address above:
     ```
-    % docker compose exec lotus lotus send t410fia6w4ox7ja5dy4t564y4m4qkjhrw3y7ldcn3u3q 1000
-bafy2bzacecdtzoq6llosskugezsmtlefxjbjww3pddj42iqgqa3vcalgjm6rs
+    docker compose exec lotus lotus send t410fia6w4ox7ja5dy4t564y4m4qkjhrw3y7ldcn3u3q 1000
+    ```
+    ```
+    bafy2bzacecdtzoq6llosskugezsmtlefxjbjww3pddj42iqgqa3vcalgjm6rs
     ```
    The funds will show up in your metamask wallet in around 45 seconds.
     
