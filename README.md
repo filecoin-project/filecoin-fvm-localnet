@@ -1,25 +1,41 @@
-# Filecoin FVM Localnet
-A complete filecoin lotus and boost docker image to spin up a localnet for smart contract development.
+# Filecoin FVM localnet
 
-This works on both ARM64 (e.g. Macbook M1/M2s) and AMD64 (e.g. x86 Linux / Windows / MacOS).
+Filecoin FVM Localnet is a complete Filecoin [Lotus](https://lotus.filecoin.io/) and [Boost](https://boost.filecoin.io/) Docker image that allows you to spin up a localnet for FVM smart contract development.
 
 
-## Install
-Ensure you have [docker installed](https://docs.docker.com/get-docker/). Clone this repository:
+## System requirements
 
-```sh
-git clone https://github.com/hammertoe/filecoin-fvm-localnet.git
-```
+ARM64 (e.g. Macbook M1/M2s) or AMD64 (e.g. x86 Linux / Windows / MacOS).
 
-Then run Docker compose up:
+## Prerequisites
 
-```sh
-cd filecoin-fvm-localnet
-docker compose up
-```
+Ensure you have [Docker installed](https://docs.docker.com/get-docker/). 
 
-The first time this runs, it will need to download about 5GB of initial data to start the network. Then local information is stored in `data/`. 
+## Installation
 
-It will take a while to start up and will display a number of errors in the process.
+1. Clone this repository:
 
-Once started you will be able to get to the Boost UI at: `http://localhost:8080`
+    ```sh
+    git clone https://github.com/hammertoe/filecoin-fvm-localnet.git
+    ```
+
+1. Navigate to the repository:
+
+    ```sh
+    cd filecoin-fvm-localnet
+    ```
+
+1. Run Docker `compose up`:
+
+    ```sh
+    docker compose up
+    ```
+
+Once the localnet is started, you can navigate the Boost UI at: `http://localhost:8080`. 
+
+## Usage notes
+
+- The first time the localnet runs, it will need to download ~5GB of initial data to start the network. After this, local information is stored in `data/`. 
+
+- The localnet will take a while to start up and will display a number of errors in the process.
+
