@@ -48,7 +48,7 @@ jobs:
         with:
           # list of Docker images to use as base name for tags
           images: |
-            ${{ env.REGISTRY }}/hammertoe/lotus-dev
+            ${{ env.REGISTRY }}/filecoin-project/lotus-localnet-multiarch
           # generate Docker tags based on the following events/attributes
           tags: |
             type=schedule
