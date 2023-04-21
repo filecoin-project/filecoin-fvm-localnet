@@ -42,7 +42,7 @@ services:
     volumes:
       - ./data/lotus:/var/lib/lotus:rw
       - ./data/genesis:/var/lib/genesis:rw
-      - ${FIL_PROOFS_PARAMETER_CACHE}:/var/tmp/filecoin-proof-parameters:rw
+#      - ${FIL_PROOFS_PARAMETER_CACHE}:/var/tmp/filecoin-proof-parameters:rw
 
   lotus-miner:
     container_name: lotus-miner
@@ -78,7 +78,7 @@ services:
       - ./data/lotus-miner:/var/lib/lotus-miner:rw
       - ./data/lotus:/var/lib/lotus:ro
       - ./data/genesis:/var/lib/genesis:ro
-      - ${FIL_PROOFS_PARAMETER_CACHE}:/var/tmp/filecoin-proof-parameters:rw
+#      - ${FIL_PROOFS_PARAMETER_CACHE}:/var/tmp/filecoin-proof-parameters:rw
 
   boost:
     container_name: boost
@@ -119,6 +119,13 @@ services:
     container_name: booster-http
     image: ${IMAGE}
     entrypoint: ['/app/entrypoint-booster-http.sh']
+    healthcheck:
+      test: >-
+        curl http://127.0.0.1:7777/ || echo down
+      interval: 20s
+      retries: 5
+      start_period: 6000s
+      timeout: 10s
     depends_on:
         boost:
           condition: service_healthy
@@ -142,6 +149,14 @@ services:
     container_name: booster-bitswap
     image: ${IMAGE}
     entrypoint: ['/app/entrypoint-booster-bitswap.sh']
+    healthcheck:
+      test: >-
+        printf "" > /dev/tcp/127.0.0.1/8888 || echo down
+      interval: 20s
+      retries: 5
+      start_period: 6000s
+      timeout: 10s
+
     depends_on:
         boost:
           condition: service_healthy
