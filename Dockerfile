@@ -44,5 +44,5 @@ ENTRYPOINT ["/bin/bash"]
 
 
 FROM ghcr.io/hammertoe/filecoin-fvm-localnet:sha-e458956 AS filecoin-fvm-localnet-preproofs-2k
-RUN lotus fetch-params 2048 && touch /var/lib/lotus/.init.params
+RUN lotus fetch-params 2048
 
