@@ -67,7 +67,7 @@ jobs:
           file: Dockerfile
           target: filecoin-fvm-localnet-preproofs-2k
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: ${{ steps.meta2k.outputs.tags }}
 
       - name: Docker meta 8m
         id: meta8m
@@ -95,5 +95,5 @@ jobs:
           file: Dockerfile
           target: filecoin-fvm-localnet-preproofs-8m
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: ${{ steps.meta8m.outputs.tags }}
 
