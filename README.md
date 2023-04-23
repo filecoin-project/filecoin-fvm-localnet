@@ -13,6 +13,8 @@ Ensure you have [Docker installed](https://docs.docker.com/get-docker/).
 
 ## Installation
 
+**Please note**, that running the commands below will result in docker downloading a 3GB image on first run (or 7GB if you choose to run an 8M network). So if you are going to be running this at somewhere with poor or metered internet connectivity, please be aware.
+
 1. Clone this repository:
 
     ```sh
@@ -24,6 +26,8 @@ Ensure you have [Docker installed](https://docs.docker.com/get-docker/).
     ```sh
     cd filecoin-fvm-localnet
     ```
+    
+1. Edit the file `.env` if you wish to optionally run an 8M sector network, otherwise the defaul 2k sectors will be used
 
 1. Run Docker `compose up`:
 
@@ -79,9 +83,7 @@ In order to transact with the network, you will need some funds (tFIL) in your w
 
 ## Usage notes
 
-- This network has a sector size of 2KiB. This is set in the `.env` file. This means that the largest storage deals you can make with the miner will be 2KiB. If you want an 8MiB network and storage deals of up to 8MiB, then uncomment the appropriate `SECTOR_SIZE` line and restart docker compose.
-
-- The first time you run `docker compose up`, it will need to download ~3GB of data to start the network (1GB of docker images, and 2GB of initial proof data for the network genesis). If you run the 8MiB network, it will need to download about 6GB of proof data to start up.
+- This network has a sector size of 2KiB. This means that the largest storage deals you can make with the miner will be 2KiB. If you want an 8MiB network and storage deals of up to 8MiB, then uncomment the appropriate section in the `.env` file, delete the `data/` directory and restart docker compose.
 
 - The localnet will take a while to start up -- around 5 - 10 minutes depending on how quickly it can download the docker image and initial proof data.
 
