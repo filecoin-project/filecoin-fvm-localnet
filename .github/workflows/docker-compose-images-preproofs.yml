@@ -87,7 +87,7 @@ jobs:
             type=sha
             
       - name: Build and push 8m
-        id: build2k
+        id: build8m
         uses: docker/build-push-action@v4
         with:
           context: .
