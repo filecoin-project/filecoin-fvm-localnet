@@ -18,7 +18,7 @@ Ensure you have [Docker installed](https://docs.docker.com/get-docker/).
 1. Clone this repository:
 
     ```sh
-    git clone https://github.com/hammertoe/filecoin-fvm-localnet.git
+    git clone https://github.com/filecoin-project/filecoin-fvm-localnet.git
     ```
 
 1. Navigate to the repository:
