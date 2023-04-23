@@ -1,0 +1,99 @@
+name: docker-compose-images-preproofs
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/docker-compose-images-preproofs.yml
+  repository_dispatch:
+    types: [manual-run-auto]
+  workflow_dispatch: {}
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: hammertoe/filecoin-fvm-localnet:sha-e458956
+
+jobs:
+  run-build-and-push-oci-image:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+      actions: write
+    outputs:
+      digest: ${{ steps.fetch_digest.outputs.digest }}
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+        with:
+          repository: ''
+          submodules: recursive
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v2.2.1
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v2.1.0
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Docker meta 2k
+        id: meta2k
+        uses: docker/metadata-action@v4
+        with:
+          # list of Docker images to use as base name for tags
+          images: |
+            ${{ env.REGISTRY }}/hammertoe/filecoin-fvm-localnet-preproofs-2k
+          # generate Docker tags based on the following events/attributes
+          tags: |
+            type=schedule
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+            type=sha
+            
+      - name: Build and push 2k
+        id: build2k
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          platforms: linux/amd64, linux/arm64
+          file: Dockerfile
+          target: filecoin-fvm-localnet-preproofs-2k
+          push: true
+          tags: ${{ steps.meta2k.outputs.tags }}
+
+      - name: Docker meta 8m
+        id: meta8m
+        uses: docker/metadata-action@v4
+        with:
+          # list of Docker images to use as base name for tags
+          images: |
+            ${{ env.REGISTRY }}/hammertoe/filecoin-fvm-localnet-preproofs-8m
+          # generate Docker tags based on the following events/attributes
+          tags: |
+            type=schedule
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+            type=sha
+            
+      - name: Build and push 8m
+        id: build8m
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          platforms: linux/amd64, linux/arm64
+          file: Dockerfile
+          target: filecoin-fvm-localnet-preproofs-8m
+          push: true
+          tags: ${{ steps.meta8m.outputs.tags }}
+
