@@ -27,7 +27,7 @@ Ensure you have [Docker installed](https://docs.docker.com/get-docker/).
     cd filecoin-fvm-localnet
     ```
     
-1. Edit the file `.env` if you wish to optionally run an 8M sector network, otherwise the defaul 2k sectors will be used
+1. OPTIONAL: Edit the file `.env` if you wish to optionally run an 8M sector network, otherwise the default 2k sectors will be used
 
 1. Run Docker `compose up`:
 
