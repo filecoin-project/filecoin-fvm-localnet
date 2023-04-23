@@ -41,8 +41,8 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Docker meta
-        id: meta
+      - name: Docker meta 2k
+        id: meta2k
         uses: docker/metadata-action@v4
         with:
           # list of Docker images to use as base name for tags
@@ -58,8 +58,8 @@ jobs:
             type=semver,pattern={{major}}
             type=sha
             
-      - name: Build and push
-        id: build
+      - name: Build and push 2k
+        id: build2k
         uses: docker/build-push-action@v4
         with:
           context: .
@@ -68,3 +68,32 @@ jobs:
           target: filecoin-fvm-localnet-preproofs-2k
           push: true
           tags: ${{ steps.meta.outputs.tags }}
+
+      - name: Docker meta 8m
+        id: meta8m
+        uses: docker/metadata-action@v4
+        with:
+          # list of Docker images to use as base name for tags
+          images: |
+            ${{ env.REGISTRY }}/hammertoe/filecoin-fvm-localnet-preproofs-8m
+          # generate Docker tags based on the following events/attributes
+          tags: |
+            type=schedule
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+            type=sha
+            
+      - name: Build and push 8m
+        id: build2k
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          platforms: linux/amd64, linux/arm64
+          file: Dockerfile
+          target: filecoin-fvm-localnet-preproofs-8m
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+
