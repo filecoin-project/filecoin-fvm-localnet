@@ -12,7 +12,9 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: hammertoe/boost-localnet-multiarch
+  NAMESPACE: ${{ github.repository_owner }}
+  IMAGE_NAME: boost-localnet-multiarch
+  TEST_IMAGE_NAME: lotus-localnet-multiarch
 
 jobs:
   run-build-and-push-oci-image:
@@ -41,14 +43,14 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-          
+
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v4
         with:
           # list of Docker images to use as base name for tags
           images: |
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+            ${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.IMAGE_NAME }}
           # generate Docker tags based on the following events/attributes
           tags: |
             type=schedule
@@ -58,7 +60,7 @@ jobs:
             type=semver,pattern={{major}}.{{minor}}
             type=semver,pattern={{major}}
             type=sha
-            
+
       - name: Build and push image
         id: build
         uses: docker/build-push-action@v4
@@ -69,10 +71,9 @@ jobs:
           build-args: |
             BUILD_VERSION=dev
             FFI_BUILD_FROM_SOURCE=1
-            LOTUS_TEST_IMAGE=ghcr.io/hammertoe/lotus-localnet-multiarch:latest
+            LOTUS_TEST_IMAGE=${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.TEST_IMAGE_NAME }}:latest
           target: builder
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          
