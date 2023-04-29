@@ -12,7 +12,8 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: hammertoe/filecoin-fvm-localnet:sha-e458956
+  NAMESPACE: ${{ github.repository_owner }}
+  IMAGE_NAME: filecoin-fvm-localnet-preproofs
 
 jobs:
   run-build-and-push-oci-image:
@@ -47,7 +48,7 @@ jobs:
         with:
           # list of Docker images to use as base name for tags
           images: |
-            ${{ env.REGISTRY }}/hammertoe/filecoin-fvm-localnet-preproofs-2k
+            ${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.IMAGE_NAME }}-2k
           # generate Docker tags based on the following events/attributes
           tags: |
             type=schedule
@@ -57,7 +58,7 @@ jobs:
             type=semver,pattern={{major}}.{{minor}}
             type=semver,pattern={{major}}
             type=sha
-            
+
       - name: Build and push 2k
         id: build2k
         uses: docker/build-push-action@v4
@@ -75,7 +76,7 @@ jobs:
         with:
           # list of Docker images to use as base name for tags
           images: |
-            ${{ env.REGISTRY }}/hammertoe/filecoin-fvm-localnet-preproofs-8m
+            ${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.IMAGE_NAME }}-8m
           # generate Docker tags based on the following events/attributes
           tags: |
             type=schedule
@@ -85,7 +86,7 @@ jobs:
             type=semver,pattern={{major}}.{{minor}}
             type=semver,pattern={{major}}
             type=sha
-            
+
       - name: Build and push 8m
         id: build8m
         uses: docker/build-push-action@v4
@@ -96,4 +97,3 @@ jobs:
           target: filecoin-fvm-localnet-preproofs-8m
           push: true
           tags: ${{ steps.meta8m.outputs.tags }}
-

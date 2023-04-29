@@ -12,7 +12,8 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: hammertoe/lotus-localnet-multiarch
+  NAMESPACE: ${{ github.repository_owner }}
+  IMAGE_NAME: lotus-localnet-multiarch
 
 jobs:
   run-build-and-push-oci-image:
@@ -41,14 +42,14 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-          
+
       - name: Docker meta
         id: meta_lotus_dev
         uses: docker/metadata-action@v4
         with:
           # list of Docker images to use as base name for tags
           images: |
-            ${{ env.REGISTRY }}/filecoin-project/lotus-localnet-multiarch
+            ${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.IMAGE_NAME }}
           # generate Docker tags based on the following events/attributes
           tags: |
             type=schedule
@@ -58,7 +59,7 @@ jobs:
             type=semver,pattern={{major}}.{{minor}}
             type=semver,pattern={{major}}
             type=sha
-            
+
       - name: Build and push
         id: build
         uses: docker/build-push-action@v4
