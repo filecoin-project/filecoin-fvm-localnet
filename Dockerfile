@@ -1,12 +1,12 @@
-FROM ghcr.io/filecoin-project/lotus-localnet-multiarch:latest as lotus-test
+FROM ghcr.io/hammertoe/lotus-localnet-multiarch:latest as lotus-test
 
-FROM ghcr.io/filecoin-project/boost-localnet-multiarch:sha-f1539cc as boost
+FROM ghcr.io/hammertoe/boost-localnet-multiarch:sha-f1539cc as boost
 
 FROM ubuntu:20.04 as builder
 
 RUN apt update && apt install -y binutils
 
-RUN mkdir /usr/local/bin2
+RUN mkdir /usr/local/bin2 
 COPY --from=boost /go/src/boostd /go/src/boost /go/src/boostx /go/src/booster-http /go/src/booster-bitswap /usr/local/bin2/
 COPY --from=lotus-test /usr/local/bin/lotus /usr/local/bin/lotus-miner /usr/local/bin/lotus-seed /usr/local/bin2/
 
@@ -21,7 +21,7 @@ EXPOSE 8080
 
 RUN apt update && apt install -y \
       curl \
-      hwloc
+      hwloc 
 
 ## Fix missing lib libhwloc.so.5
 RUN ls -1 /lib/*/libhwloc.so.* | head -n 1 | xargs -n1 -I {} ln -s {} /lib/libhwloc.so.5
@@ -39,13 +39,14 @@ COPY boost/docker/devnet/lotus-miner/entrypoint.sh /app/entrypoint-lotus-miner.s
 ## Test everything starts
 RUN lotus -v && lotus-miner -v && lotus-seed -v && \
       boost -v && booster-http -v && booster-bitswap version
-
+      
 ENTRYPOINT ["/bin/bash"]
 
 
-FROM ghcr.io/filecoin-project/filecoin-fvm-localnet:sha-e458956 AS filecoin-fvm-localnet-preproofs-2k
+FROM ghcr.io/hammertoe/filecoin-fvm-localnet:sha-e458956 AS filecoin-fvm-localnet-preproofs-2k
 RUN lotus fetch-params 2048
 
 
-FROM ghcr.io/filecoin-project/filecoin-fvm-localnet:sha-e458956 AS filecoin-fvm-localnet-preproofs-8m
+FROM ghcr.io/hammertoe/filecoin-fvm-localnet:sha-e458956 AS filecoin-fvm-localnet-preproofs-8m
 RUN lotus fetch-params 8388608
+
