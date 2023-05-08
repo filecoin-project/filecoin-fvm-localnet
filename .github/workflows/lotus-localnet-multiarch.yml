@@ -69,7 +69,7 @@ jobs:
           file: Dockerfile
           build-args: |
             GOFLAGS=-tags=2k
-            FFI_BUILD_FROM_SOURCE=1
+#            FFI_BUILD_FROM_SOURCE=1
           target: lotus-all-in-one
           push: true
           tags: ${{ steps.meta_lotus_dev.outputs.tags }}
