@@ -43,10 +43,10 @@ RUN lotus -v && lotus-miner -v && lotus-seed -v && \
 ENTRYPOINT ["/bin/bash"]
 
 
-FROM ghcr.io/hammertoe/filecoin-fvm-localnet AS filecoin-fvm-localnet-preproofs-2k
+FROM ghcr.io/filecoin-project/filecoin-fvm-localnet AS filecoin-fvm-localnet-preproofs-2k
 RUN lotus fetch-params 2048
 
 
-FROM ghcr.io/hammertoe/filecoin-fvm-localnet AS filecoin-fvm-localnet-preproofs-8m
+FROM ghcr.io/filecoin-project/filecoin-fvm-localnet AS filecoin-fvm-localnet-preproofs-8m
 RUN lotus fetch-params 8388608
 
