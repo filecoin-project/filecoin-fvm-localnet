@@ -1,6 +1,6 @@
 FROM ghcr.io/hammertoe/lotus-localnet-multiarch:latest as lotus-test
 
-FROM ghcr.io/hammertoe/boost-localnet-multiarch:sha-f1539cc as boost
+FROM ghcr.io/filecoin-project/boost-localnet-multiarch:sha-ee2e92e as boost
 
 FROM ubuntu:20.04 as builder
 
@@ -43,10 +43,10 @@ RUN lotus -v && lotus-miner -v && lotus-seed -v && \
 ENTRYPOINT ["/bin/bash"]
 
 
-FROM ghcr.io/hammertoe/filecoin-fvm-localnet:sha-e458956 AS filecoin-fvm-localnet-preproofs-2k
+FROM ghcr.io/hammertoe/filecoin-fvm-localnet AS filecoin-fvm-localnet-preproofs-2k
 RUN lotus fetch-params 2048
 
 
-FROM ghcr.io/hammertoe/filecoin-fvm-localnet:sha-e458956 AS filecoin-fvm-localnet-preproofs-8m
+FROM ghcr.io/hammertoe/filecoin-fvm-localnet AS filecoin-fvm-localnet-preproofs-8m
 RUN lotus fetch-params 8388608
 
