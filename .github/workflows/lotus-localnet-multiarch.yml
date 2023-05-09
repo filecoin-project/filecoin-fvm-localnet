@@ -29,8 +29,8 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v3
         with:
-          repository: hammertoe/lotus
-#          ref: fvmdx2
+          repository: galorgh/lotus
+          ref: ci/faster-docker-builds
           submodules: recursive
 
       - name: Setup Docker Buildx
@@ -71,7 +71,7 @@ jobs:
             GOFLAGS=-tags=2k
 #            FFI_BUILD_FROM_SOURCE=1
           target: lotus-all-in-one
-          push: true
+          push: false
           tags: ${{ steps.meta_lotus_dev.outputs.tags }}
           #labels: ${{ steps.meta_lotus_dev.outputs.labels }}
           cache-from: type=gha
