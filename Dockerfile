@@ -1,6 +1,6 @@
-FROM ghcr.io/hammertoe/lotus-localnet-multiarch:latest as lotus-test
+FROM ghcr.io/filecoin-project/lotus-localnet-multiarch:sha-b7de64f as lotus-test
 
-FROM ghcr.io/filecoin-project/boost-localnet-multiarch:sha-ee2e92e as boost
+FROM ghcr.io/filecoin-project/boost-localnet-multiarch::sha-ee2e92e as boost
 
 FROM ubuntu:20.04 as builder
 
