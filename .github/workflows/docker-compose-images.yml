@@ -66,5 +66,6 @@ jobs:
           context: .
           platforms: linux/amd64, linux/arm64
           file: Dockerfile
+          target: runner
           push: true
           tags: ${{ steps.meta.outputs.tags }}
