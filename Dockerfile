@@ -1,4 +1,4 @@
-FROM ghcr.io/filecoin-project/lotus-localnet-multiarch:sha-b7de64f as lotus-test
+FROM ghcr.io/filecoin-project/lotus-localnet-multiarch:sha-65f1c0d as lotus-test
 
 FROM ghcr.io/filecoin-project/boost-localnet-multiarch:sha-ee2e92e as boost
 
