@@ -6,8 +6,8 @@ index 23a0631c304..d37446761d9 100644
  
  dist/
  
-+build/params_2k.go
-+scripts/docker-git-state-check.sh
++!build/params_2k.go
++!scripts/docker-git-state-check.sh
  
  # The following files are checked into git and result
  # in dirty git state if removed from the docker context
