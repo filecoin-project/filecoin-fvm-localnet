@@ -1,0 +1,45 @@
+diff --git a/.gitignore b/.gitignore
+index 23a0631c304..7ac88b0612a 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -52,4 +52,4 @@ dist/
+ # The following files are checked into git and result
+ # in dirty git state if removed from the docker context
+ !extern/filecoin-ffi/rust/filecoin.pc
+-!extern/test-vectors
++!extern/test-vectors/**
+diff --git a/build/params_2k.go b/build/params_2k.go
+index c3199e2d63a..6cca065d18a 100644
+--- a/build/params_2k.go
++++ b/build/params_2k.go
+@@ -61,9 +61,9 @@ var UpgradeSharkHeight = abi.ChainEpoch(-20)
+ 
+ var UpgradeHyggeHeight = abi.ChainEpoch(-21)
+ 
+-var UpgradeLightningHeight = abi.ChainEpoch(30)
++var UpgradeLightningHeight = abi.ChainEpoch(-22)
+ 
+-var UpgradeThunderHeight = abi.ChainEpoch(1000)
++var UpgradeThunderHeight = abi.ChainEpoch(-23)
+ 
+ var DrandSchedule = map[abi.ChainEpoch]DrandEnum{
+ 	0: DrandMainnet,
+@@ -125,7 +125,7 @@ func init() {
+ 
+ }
+ 
+-const BlockDelaySecs = uint64(4)
++const BlockDelaySecs = uint64(15)
+ 
+ const PropagationDelaySecs = uint64(1)
+ 
+diff --git a/scripts/docker-git-state-check.sh b/scripts/docker-git-state-check.sh
+index 6075ebf843c..e25f210f0b8 100755
+--- a/scripts/docker-git-state-check.sh
++++ b/scripts/docker-git-state-check.sh
+@@ -1,3 +1,5 @@
++#!/usr/bin/env bash
++
+ set -e
+ 
+ if [ -z "$(git status --porcelain)" ]; then
