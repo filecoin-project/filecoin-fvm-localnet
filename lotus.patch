@@ -1,8 +1,14 @@
 diff --git a/.gitignore b/.gitignore
-index 23a0631c304..7ac88b0612a 100644
+index 23a0631c304..d37446761d9 100644
 --- a/.gitignore
 +++ b/.gitignore
-@@ -52,4 +52,4 @@ dist/
+@@ -48,8 +48,10 @@ build/builtin-actors/*.car
+ 
+ dist/
+ 
++build/params_2k.go
++scripts/docker-git-state-check.sh
+ 
  # The following files are checked into git and result
  # in dirty git state if removed from the docker context
  !extern/filecoin-ffi/rust/filecoin.pc
