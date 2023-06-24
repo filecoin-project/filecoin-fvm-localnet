@@ -1,17 +1,3 @@
-diff --git a/.gitignore b/.gitignore
-index 23a0631c304..803ddead95f 100644
---- a/.gitignore
-+++ b/.gitignore
-@@ -48,8 +48,7 @@ build/builtin-actors/*.car
- 
- dist/
- 
--
- # The following files are checked into git and result
- # in dirty git state if removed from the docker context
- !extern/filecoin-ffi/rust/filecoin.pc
--!extern/test-vectors
-+!extern/test-vectors/**
 diff --git a/build/params_2k.go b/build/params_2k.go
 index c3199e2d63a..6cca065d18a 100644
 --- a/build/params_2k.go
