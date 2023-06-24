@@ -30,7 +30,8 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v3
         with:
-          repository: hammertoe/boost
+          repository: filecoin-project/boost
+          ref: v1.7.3
           submodules: recursive
 
       - name: Setup Docker Buildx
