@@ -1,0 +1,38 @@
+diff --git a/Makefile b/Makefile
+index ace31ae09..6817136ae 100644
+--- a/Makefile
++++ b/Makefile
+@@ -61,7 +61,7 @@ BUILD_DEPS+=ffi-version-check
+ $(MODULES): build/.update-modules ;
+ # dummy file that marks the last time modules were updated
+ build/.update-modules:
+-	git submodule update --init --recursive
++	git submodule update --init --recursive || echo "git submodule update failed"
+ 	touch $@
+ 
+ # end git modules
+diff --git a/docker/devnet/Dockerfile.source b/docker/devnet/Dockerfile.source
+index 785b0de96..2114a996d 100644
+--- a/docker/devnet/Dockerfile.source
++++ b/docker/devnet/Dockerfile.source
+@@ -23,6 +23,7 @@ RUN apt update && apt install -y \
+       gcc git \
+       hwloc \
+       jq \
++      nodejs \
+       libhwloc-dev wget \
+       mesa-opencl-icd \
+       ocl-icd-opencl-dev
+diff --git a/node/config/def.go b/node/config/def.go
+index 18364c996..041fff7e8 100644
+--- a/node/config/def.go
++++ b/node/config/def.go
+@@ -76,7 +76,7 @@ func DefaultBoost() *Boost {
+ 		},
+ 
+ 		ContractDeals: ContractDealsConfig{
+-			Enabled:            false,
++			Enabled:            true,
+ 			AllowlistContracts: []string{},
+ 			From:               "0x0000000000000000000000000000000000000000",
+ 		},
