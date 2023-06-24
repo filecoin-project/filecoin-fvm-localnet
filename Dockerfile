@@ -1,6 +1,6 @@
-FROM ghcr.io/filecoin-project/lotus-localnet-multiarch:sha-65f1c0d as lotus-test
+FROM ghcr.io/filecoin-project/lotus-localnet-multiarch:sha-6476830 as lotus-test
 
-FROM ghcr.io/filecoin-project/boost-localnet-multiarch:sha-ee2e92e as boost
+FROM ghcr.io/filecoin-project/boost-localnet-multiarch:sha-46a99a1 as boost
 
 FROM ubuntu:20.04 as builder
 
