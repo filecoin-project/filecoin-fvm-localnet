@@ -30,11 +30,11 @@ WORKDIR /app
 
 COPY --from=builder /usr/local/bin2/* /usr/local/bin/
 
-COPY boost/docker/devnet/boost/entrypoint.sh /app/entrypoint-boost.sh
-COPY boost/docker/devnet/booster-http/entrypoint.sh /app/entrypoint-booster-http.sh
-COPY boost/docker/devnet/booster-bitswap/entrypoint.sh /app/entrypoint-booster-bitswap.sh
-COPY boost/docker/devnet/lotus/entrypoint.sh /app/entrypoint-lotus.sh
-COPY boost/docker/devnet/lotus-miner/entrypoint.sh /app/entrypoint-lotus-miner.sh
+COPY --from=boost boost/docker/devnet/boost/entrypoint.sh /app/entrypoint-boost.sh
+COPY --from=boost boost/docker/devnet/booster-http/entrypoint.sh /app/entrypoint-booster-http.sh
+COPY --from=boost boost/docker/devnet/booster-bitswap/entrypoint.sh /app/entrypoint-booster-bitswap.sh
+COPY --from=boost boost/docker/devnet/lotus/entrypoint.sh /app/entrypoint-lotus.sh
+COPY --from=boost boost/docker/devnet/lotus-miner/entrypoint.sh /app/entrypoint-lotus-miner.sh
 
 ## Test everything starts
 RUN lotus -v && lotus-miner -v && lotus-seed -v && \
