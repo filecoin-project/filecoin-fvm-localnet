@@ -1,0 +1,6 @@
+[submodule "lotus"]
+	path = lotus
+	url = https://github.com/filecoin-project/lotus.git
+[submodule "boost"]
+	path = boost
+	url = https://github.com/filecoin-project/boost.git
