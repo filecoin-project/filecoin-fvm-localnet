@@ -208,7 +208,7 @@ jobs:
           cache-to: type=gha,mode=max
           build-args: |
             LOTUS_LOCALNET_MULTIARCH_IMAGE=${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.LOTUS_IMAGE_NAME }}@${{ needs['build-lotus-image'].outputs.digest }}
-            BOOST_LOCALNET_MULTIARCH_IMAGE=${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.BOOOST_IMAGE_NAME }}@${{ needs['build-boost-image'].outputs.digest }}
+            BOOST_LOCALNET_MULTIARCH_IMAGE=${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.BOOST_IMAGE_NAME }}@${{ needs['build-boost-image'].outputs.digest }}
           
   build-2k-prepopulated-image:
     name: Build 2k Pre-populated FVM Localnet image 
