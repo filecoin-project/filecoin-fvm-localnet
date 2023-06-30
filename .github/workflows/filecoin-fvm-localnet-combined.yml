@@ -4,10 +4,10 @@ on:
   workflow_dispatch:
     inputs:
       lotus_tag:
-        name: Lotus Tag
+        description: Lotus Tag
         default: v1.23.1
       boost_tag:
-        name: Boost Tag
+        description: Boost Tag
         default: v1.7.3
 
 env:
