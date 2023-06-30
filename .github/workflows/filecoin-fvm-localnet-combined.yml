@@ -77,12 +77,12 @@ jobs:
           target: lotus-all-in-one
           push: true
           tags: ${{ steps.meta_lotus_dev.outputs.tags }}
-          #labels: ${{ steps.meta_lotus_dev.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
   build-boost-image:
     runs-on: ubuntu-latest-4-cores
+    needs: [build-lotus-image]
     permissions:
       contents: write
       packages: write
@@ -137,7 +137,7 @@ jobs:
           file: docker/devnet/Dockerfile.source
           build-args: |
             BUILD_VERSION=dev
-            LOTUS_TEST_IMAGE=${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.LOTUS_IMAGE_NAME }}:latest
+            LOTUS_TEST_IMAGE=${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.LOTUS_IMAGE_NAME }}:${{ needs['build-lotus-image'].outputs.digest }}
           target: builder
           push: true
           tags: ${{ steps.meta.outputs.tags }}
@@ -202,8 +202,8 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           build-args: |
-            LOTUS_LOCALNET_MULTIARCH_IMAGE=ghcr.io/filecoin-project/lotus-localnet-multiarch@${{ needs['build-lotus-image'].outputs.digest }}
-            BOOST_LOCALNET_MULTIARCH_IMAGE=ghcr.io/filecoin-project/boost-localnet-multiarch@${{ needs['build-boost-image'].outputs.digest }}
+            LOTUS_LOCALNET_MULTIARCH_IMAGE=${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.LOTUS_IMAGE_NAME }}@${{ needs['build-lotus-image'].outputs.digest }}
+            BOOST_LOCALNET_MULTIARCH_IMAGE=${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.BOOOST_IMAGE_NAME }}@${{ needs['build-boost-image'].outputs.digest }}
           
   build-2k-prepopulated-image:
     runs-on: ubuntu-latest-4-cores
@@ -262,7 +262,7 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           build-args: |
-            FILECOIN_FVM_LOCALNET_IMAGE=ghcr.io/filecoin-project/filecoin-fvm-localnet@${{ needs['build-base-image'].outputs.digest }}
+            FILECOIN_FVM_LOCALNET_IMAGE=${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.IMAGE_NAME }}@${{ needs['build-base-image'].outputs.digest }}
 
   build-8m-prepopulated-image:
     runs-on: ubuntu-latest-4-cores
@@ -320,4 +320,4 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           build-args: |
-            FILECOIN_FVM_LOCALNET_IMAGE=ghcr.io/filecoin-project/filecoin-fvm-localnet@${{ needs['build-base-image'].outputs.digest }}
+            FILECOIN_FVM_LOCALNET_IMAGE=${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.IMAGE_NAME }}@${{ needs['build-base-image'].outputs.digest }}
