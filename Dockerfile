@@ -1,6 +1,10 @@
-FROM ghcr.io/filecoin-project/lotus-localnet-multiarch:sha-6476830 as lotus
+ARG LOTUS_LOCALNET_MULTIARCH_IMAGE=ghcr.io/filecoin-project/lotus-localnet-multiarch:main
+ARG BOOST_LOCALNET_MULTIARCH_IMAGE=ghcr.io/filecoin-project/boost-localnet-multiarch:main
+ARG FILECOIN_FVM_LOCALNET_IMAGE=ghcr.io/filecoin-project/filecoin-fvm-localnet:main
 
-FROM ghcr.io/filecoin-project/boost-localnet-multiarch:sha-46a99a1 as boost
+FROM ${LOTUS_LOCALNET_MULTIARCH_IMAGE} as lotus
+
+FROM ${BOOST_LOCALNET_MULTIARCH_IMAGE} as boost
 
 FROM ubuntu:20.04 as builder
 
@@ -42,9 +46,9 @@ RUN lotus -v && lotus-miner -v && lotus-seed -v && \
       
 ENTRYPOINT ["/bin/bash"]
 
-FROM runner AS filecoin-fvm-localnet-preproofs-2k
+FROM ${FILECOIN_FVM_LOCALNET_IMAGE} AS filecoin-fvm-localnet-preproofs-2k
 RUN lotus fetch-params 2048
 
-FROM runner AS filecoin-fvm-localnet-preproofs-8m
+FROM ${FILECOIN_FVM_LOCALNET_IMAGE} AS filecoin-fvm-localnet-preproofs-8m
 RUN lotus fetch-params 8388608
 
