@@ -23,7 +23,7 @@ jobs:
       packages: write
       actions: write
     outputs:
-      digest: ${{ steps.fetch_digest.outputs.digest }}
+      digest: ${{ steps.build.outputs.digest }}
 
     steps:
       - name: Check out repository
