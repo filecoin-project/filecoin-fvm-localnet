@@ -1,4 +1,5 @@
-name: docker-compose-images
+name: Build Filecoin FVM Localnet Docker Images
+run-name: Build from Lotus ${{ inputs.lotus_tag }} Boost ${{ inputs.boost_tag }}
 
 on:
   workflow_dispatch:
