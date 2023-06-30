@@ -14,10 +14,140 @@ env:
   REGISTRY: ghcr.io
   NAMESPACE: ${{ github.repository_owner }}
   IMAGE_NAME: filecoin-fvm-localnet
+  BOOST_IMAGE_NAME: boost-localnet-multiarch
+  LOTUS_IMAGE_NAME: lotus-localnet-multiarch
 
 jobs:
+  build-lotus-image:
+    runs-on: ubuntu-latest-4-cores
+    permissions:
+      contents: write
+      packages: write
+      actions: write
+    outputs:
+      digest: ${{ steps.fetch_digest.outputs.digest }}
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+        with:
+          repository: filecoin-project/lotus
+          ref: v1.23.1
+          submodules: recursive
+  
+      - name: Patch Lotus
+        run: curl https://raw.githubusercontent.com/filecoin-project/filecoin-fvm-localnet/main/lotus.patch | patch -p1
+        
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v2.2.1
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v2.1.0
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Docker meta
+        id: meta_lotus_dev
+        uses: docker/metadata-action@v4
+        with:
+          # list of Docker images to use as base name for tags
+          images: |
+            ${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.LOTUS_IMAGE_NAME }}
+          # generate Docker tags based on the following events/attributes
+          tags: |
+            type=schedule
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+            type=sha
+
+      - name: Build and push
+        id: build
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          platforms: linux/amd64, linux/arm64
+          file: Dockerfile
+          build-args: |
+            GOFLAGS=-tags=2k
+          target: lotus-all-in-one
+          push: true
+          tags: ${{ steps.meta_lotus_dev.outputs.tags }}
+          #labels: ${{ steps.meta_lotus_dev.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  build-boost-image:
+    runs-on: ubuntu-latest-4-cores
+    permissions:
+      contents: write
+      packages: write
+      actions: write
+    outputs:
+      digest: ${{ steps.fetch_digest.outputs.digest }}
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+        with:
+          repository: filecoin-project/boost
+          ref: v1.7.3
+          submodules: recursive
+            
+      - name: Patch Boost
+        run: curl https://raw.githubusercontent.com/filecoin-project/filecoin-fvm-localnet/main/boost.patch | patch -p1
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v2.2.1
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v2.1.0
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          # list of Docker images to use as base name for tags
+          images: |
+            ${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.BOOST_IMAGE_NAME }}
+          # generate Docker tags based on the following events/attributes
+          tags: |
+            type=schedule
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+            type=sha
+
+      - name: Build and push image
+        id: build
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          platforms: linux/amd64, linux/arm64
+          file: docker/devnet/Dockerfile.source
+          build-args: |
+            BUILD_VERSION=dev
+            LOTUS_TEST_IMAGE=${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.LOTUS_IMAGE_NAME }}:latest
+          target: builder
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+
   build-base-image:
     runs-on: ubuntu-latest-4-cores
+    needs: [build-lotus-image, build-boost-image]
     permissions:
       contents: write
       packages: write
