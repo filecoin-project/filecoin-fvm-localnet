@@ -83,7 +83,7 @@ jobs:
       packages: write
       actions: write
     outputs:
-      digest: ${{ steps.fetch_digest.outputs.digest }}
+      digest: ${{ steps.build2k.outputs.digest }}
 
     steps:
       - name: Check out repository
@@ -142,7 +142,7 @@ jobs:
       packages: write
       actions: write
     outputs:
-      digest: ${{ steps.fetch_digest.outputs.digest }}
+      digest: ${{ steps.build8m.outputs.digest }}
 
     steps:
       - name: Check out repository
