@@ -1,27 +1,27 @@
 name: docker-compose-images
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - .github/workflows/docker-compose-images.yml
-  repository_dispatch:
-    types: [manual-run-auto]
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      lotus_tag:
+        name: Lotus Tag
+        default: v1.23.1
+      boost_tag:
+        name: Boost Tag
+        default: v1.7.3
 
 env:
   REGISTRY: ghcr.io
   NAMESPACE: ${{ github.repository_owner }}
   IMAGE_NAME: filecoin-fvm-localnet
   BOOST_IMAGE_NAME: boost-localnet-multiarch
-  BOOST_TAG: v1.7.3
+  BOOST_TAG: ${{ inputs.boost_tag }}
   LOTUS_IMAGE_NAME: lotus-localnet-multiarch
-  LOTUS_TAG: v1.23.1
+  LOTUS_TAG: ${{ inputs.lotus_tag }}
 
 jobs:
   build-lotus-image:
-    name: Build Lotus base image ${{ LOTUS_TAG }} 
+    name: Build Lotus ${{ inputs.lotus_tag }}
     runs-on: ubuntu-latest-4-cores
     permissions:
       contents: write
@@ -84,7 +84,7 @@ jobs:
           cache-to: type=gha,mode=max
 
   build-boost-image:
-    name: Build Boost base image ${{ BOOST_TAG }}
+    name: Build Boost ${{ inputs.boost_tag }}
     runs-on: ubuntu-latest-4-cores
     needs: [build-lotus-image]
     permissions:
