@@ -128,7 +128,7 @@ jobs:
           push: true
           tags: ${{ steps.meta2k.outputs.tags }}
           build-args: |
-            FILECOIN_FVM_LOCALNET_IMAGE=ghcr.io/filecoin-project/filecoin-fvm-localnet:main
+            FILECOIN_FVM_LOCALNET_IMAGE=ghcr.io/filecoin-project/filecoin-fvm-localnet:${{ needs.build_base_image.outputs.digest }}
 
   build-8m-prepopulated-image:
     runs-on: ubuntu-latest-4-cores
@@ -183,4 +183,5 @@ jobs:
           target: filecoin-fvm-localnet-preproofs-8m
           push: true
           tags: ${{ steps.meta8m.outputs.tags }}
-          FILECOIN_FVM_LOCALNET_IMAGE: ghcr.io/filecoin-project/filecoin-fvm-localnet:main
+          build-args: |
+            FILECOIN_FVM_LOCALNET_IMAGE=ghcr.io/filecoin-project/filecoin-fvm-localnet:${{ needs.build_base_image.outputs.digest }}
