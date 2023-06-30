@@ -69,6 +69,8 @@ jobs:
           target: runner
           push: true
           tags: ${{ steps.meta.outputs.tags }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
           build-args: |
             LOTUS_LOCALNET_MULTIARCH_IMAGE=ghcr.io/filecoin-project/lotus-localnet-multiarch:sha-6476830
             BOOST_LOCALNET_MULTIARCH_IMAGE=ghcr.io/filecoin-project/boost-localnet-multiarch:sha-46a99a1
@@ -127,6 +129,8 @@ jobs:
           target: filecoin-fvm-localnet-preproofs-2k
           push: true
           tags: ${{ steps.meta2k.outputs.tags }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
           build-args: |
             FILECOIN_FVM_LOCALNET_IMAGE=ghcr.io/filecoin-project/filecoin-fvm-localnet:${{ needs.build_base_image.outputs.digest }}
 
@@ -183,5 +187,7 @@ jobs:
           target: filecoin-fvm-localnet-preproofs-8m
           push: true
           tags: ${{ steps.meta8m.outputs.tags }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
           build-args: |
             FILECOIN_FVM_LOCALNET_IMAGE=ghcr.io/filecoin-project/filecoin-fvm-localnet:${{ needs.build_base_image.outputs.digest }}
