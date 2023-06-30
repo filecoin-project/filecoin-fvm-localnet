@@ -141,7 +141,7 @@ jobs:
           file: docker/devnet/Dockerfile.source
           build-args: |
             BUILD_VERSION=dev
-            LOTUS_TEST_IMAGE=${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.LOTUS_IMAGE_NAME }}:${{ needs['build-lotus-image'].outputs.digest }}
+            LOTUS_TEST_IMAGE=${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.LOTUS_IMAGE_NAME }}@${{ needs['build-lotus-image'].outputs.digest }}
           target: builder
           push: true
           tags: ${{ steps.meta.outputs.tags }}
