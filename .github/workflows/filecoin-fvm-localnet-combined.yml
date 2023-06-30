@@ -15,10 +15,13 @@ env:
   NAMESPACE: ${{ github.repository_owner }}
   IMAGE_NAME: filecoin-fvm-localnet
   BOOST_IMAGE_NAME: boost-localnet-multiarch
+  BOOST_TAG: v1.7.3
   LOTUS_IMAGE_NAME: lotus-localnet-multiarch
+  LOTUS_TAG: v1.23.1
 
 jobs:
   build-lotus-image:
+    name: Build Lotus base image ${{ env.LOTUS_TAG }} 
     runs-on: ubuntu-latest-4-cores
     permissions:
       contents: write
@@ -32,7 +35,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: filecoin-project/lotus
-          ref: v1.23.1
+          ref: ${{ env.LOTUS_TAG }} 
           submodules: recursive
   
       - name: Patch Lotus
@@ -81,6 +84,7 @@ jobs:
           cache-to: type=gha,mode=max
 
   build-boost-image:
+    name: Build Boost base image ${{ env.BOOST_TAG }}
     runs-on: ubuntu-latest-4-cores
     needs: [build-lotus-image]
     permissions:
@@ -95,7 +99,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: filecoin-project/boost
-          ref: v1.7.3
+          ref: ${{ env.BOOST_TAG }}
           submodules: recursive
             
       - name: Patch Boost
@@ -146,6 +150,7 @@ jobs:
 
 
   build-base-image:
+    name: Build FVM Localnet image 
     runs-on: ubuntu-latest-4-cores
     needs: [build-lotus-image, build-boost-image]
     permissions:
@@ -206,6 +211,7 @@ jobs:
             BOOST_LOCALNET_MULTIARCH_IMAGE=${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.BOOOST_IMAGE_NAME }}@${{ needs['build-boost-image'].outputs.digest }}
           
   build-2k-prepopulated-image:
+    name: Build 2k Pre-populated FVM Localnet image 
     runs-on: ubuntu-latest-4-cores
     needs: [build-base-image]
     permissions:
@@ -265,6 +271,7 @@ jobs:
             FILECOIN_FVM_LOCALNET_IMAGE=${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.IMAGE_NAME }}@${{ needs['build-base-image'].outputs.digest }}
 
   build-8m-prepopulated-image:
+    name: Build 8M Pre-populated FVM Localnet image 
     runs-on: ubuntu-latest-4-cores
     needs: [build-base-image]
     permissions:
