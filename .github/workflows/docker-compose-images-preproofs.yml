@@ -17,7 +17,7 @@ env:
 
 jobs:
   build-2k-prepopulated-image:
-    runs-on: runs-on: ubuntu-latest-4-cores
+    runs-on: ubuntu-latest-4-cores
     permissions:
       contents: write
       packages: write
@@ -71,7 +71,7 @@ jobs:
           tags: ${{ steps.meta2k.outputs.tags }}
 
   build-8m-prepopulated-image:
-    runs-on: runs-on: ubuntu-latest-4-cores
+    runs-on: ubuntu-latest-4-cores
     permissions:
       contents: write
       packages: write
