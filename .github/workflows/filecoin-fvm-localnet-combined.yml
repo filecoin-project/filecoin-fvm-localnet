@@ -69,8 +69,9 @@ jobs:
           target: runner
           push: true
           tags: ${{ steps.meta.outputs.tags }}
-          LOTUS_LOCALNET_MULTIARCH_IMAGE: ghcr.io/filecoin-project/lotus-localnet-multiarch:sha-6476830
-          BOOST_LOCALNET_MULTIARCH_IMAGE: ghcr.io/filecoin-project/boost-localnet-multiarch:sha-46a99a1
+          build-args: |
+            LOTUS_LOCALNET_MULTIARCH_IMAGE=ghcr.io/filecoin-project/lotus-localnet-multiarch:sha-6476830
+            BOOST_LOCALNET_MULTIARCH_IMAGE=ghcr.io/filecoin-project/boost-localnet-multiarch:sha-46a99a1
           
   build-2k-prepopulated-image:
     runs-on: ubuntu-latest-4-cores
@@ -126,7 +127,8 @@ jobs:
           target: filecoin-fvm-localnet-preproofs-2k
           push: true
           tags: ${{ steps.meta2k.outputs.tags }}
-          FILECOIN_FVM_LOCALNET_IMAGE: ghcr.io/filecoin-project/filecoin-fvm-localnet:main
+          build-args: |
+            FILECOIN_FVM_LOCALNET_IMAGE=ghcr.io/filecoin-project/filecoin-fvm-localnet:main
 
   build-8m-prepopulated-image:
     runs-on: ubuntu-latest-4-cores
