@@ -25,7 +25,7 @@ jobs:
       packages: write
       actions: write
     outputs:
-      digest: ${{ steps.fetch_digest.outputs.digest }}
+      digest: ${{ steps.build.outputs.digest }}
 
     steps:
       - name: Check out repository
@@ -88,7 +88,7 @@ jobs:
       packages: write
       actions: write
     outputs:
-      digest: ${{ steps.fetch_digest.outputs.digest }}
+      digest: ${{ steps.build.outputs.digest }}
 
     steps:
       - name: Check out repository
@@ -202,8 +202,8 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           build-args: |
-            LOTUS_LOCALNET_MULTIARCH_IMAGE=ghcr.io/filecoin-project/lotus-localnet-multiarch:sha-6476830
-            BOOST_LOCALNET_MULTIARCH_IMAGE=ghcr.io/filecoin-project/boost-localnet-multiarch:sha-46a99a1
+            LOTUS_LOCALNET_MULTIARCH_IMAGE=ghcr.io/filecoin-project/lotus-localnet-multiarch@${{ needs['build-lotus-image'].outputs.digest }}
+            BOOST_LOCALNET_MULTIARCH_IMAGE=ghcr.io/filecoin-project/boost-localnet-multiarch@${{ needs['build-boost-image'].outputs.digest }}
           
   build-2k-prepopulated-image:
     runs-on: ubuntu-latest-4-cores
