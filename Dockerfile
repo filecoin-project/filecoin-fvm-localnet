@@ -1,4 +1,4 @@
-FROM ghcr.io/filecoin-project/lotus-localnet-multiarch:sha-6476830 as lotus-test
+FROM ghcr.io/filecoin-project/lotus-localnet-multiarch:sha-6476830 as lotus
 
 FROM ghcr.io/filecoin-project/boost-localnet-multiarch:sha-46a99a1 as boost
 
@@ -7,8 +7,8 @@ FROM ubuntu:20.04 as builder
 RUN apt update && apt install -y binutils
 
 RUN mkdir /usr/local/bin2 
-COPY --from=boost /go/src/boostd /go/src/boost /go/src/boostx /go/src/booster-http /go/src/booster-bitswap /usr/local/bin2/
-COPY --from=lotus-test /usr/local/bin/lotus /usr/local/bin/lotus-miner /usr/local/bin/lotus-seed /usr/local/bin2/
+COPY --from=boost /go/src/boost* /usr/local/bin2/
+COPY --from=lotus /usr/local/bin/lotus* /usr/local/bin2/
 
 # Strip the debugging from the files to reduce the image size by about half
 RUN strip /usr/local/bin2/*
