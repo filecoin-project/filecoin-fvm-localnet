@@ -132,7 +132,7 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           build-args: |
-            FILECOIN_FVM_LOCALNET_IMAGE=ghcr.io/filecoin-project/filecoin-fvm-localnet:${{ needs.build_base_image.outputs.digest }}
+            FILECOIN_FVM_LOCALNET_IMAGE=ghcr.io/filecoin-project/filecoin-fvm-localnet:${{ needs['build-base-image'].outputs.digest }}
 
   build-8m-prepopulated-image:
     runs-on: ubuntu-latest-4-cores
@@ -190,4 +190,4 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           build-args: |
-            FILECOIN_FVM_LOCALNET_IMAGE=ghcr.io/filecoin-project/filecoin-fvm-localnet:${{ needs.build_base_image.outputs.digest }}
+            FILECOIN_FVM_LOCALNET_IMAGE=ghcr.io/filecoin-project/filecoin-fvm-localnet:${{ needs['build-base-image'].outputs.digest }}
