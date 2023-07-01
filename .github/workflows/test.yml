@@ -1,0 +1,33 @@
+name: Test Filecoin FVM Localnet Docker Images
+
+on:
+  workflow_dispatch:
+    {}
+
+env:
+  REGISTRY: ghcr.io
+  NAMESPACE: ${{ github.repository_owner }}
+  IMAGE_NAME: filecoin-fvm-localnet
+
+jobs:
+  test-filecoin:
+    name: Test Filecoin
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+      actions: write
+    outputs:
+      digest: ${{ steps.build.outputs.digest }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          path: localnet
+
+      - name: Checkout tools repo
+        uses: actions/checkout@v3
+        with:
+          repository: filecoin-project/fevm-hardhat-kit
+          path: fevm-hardhat-kit
