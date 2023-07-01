@@ -245,7 +245,7 @@ jobs:
         with:
           # list of Docker images to use as base name for tags
           images: |
-            ${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.IMAGE_NAME }}-2k
+            ${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.IMAGE_NAME }}-preproofs-2k
           # generate Docker tags based on the following events/attributes
           tags: |
             type=schedule
@@ -304,7 +304,7 @@ jobs:
         with:
           # list of Docker images to use as base name for tags
           images: |
-            ${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.IMAGE_NAME }}-8m
+            ${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.IMAGE_NAME }}-preproofs-8m
           # generate Docker tags based on the following events/attributes
           tags: |
             type=schedule
