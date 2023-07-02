@@ -29,7 +29,7 @@ jobs:
         with:
           path: localnet
 
-      - name: Checkout tools repo
+      - name: Checkout FEVM starter kit
         uses: actions/checkout@v3
         with:
           repository: filecoin-project/fevm-hardhat-kit
@@ -57,5 +57,29 @@ jobs:
           cd fevm-hardhat-kit
           export PRIVATE_KEY=afea7f0655db527a92e2d4b4121f340f58dee4f44fe2ea67fcfdfa723f786a45
           yarn hardhat deploy --network localnet
+          sleep 45
+          
+      - name: Execute client deal contract
+        run: |
+          cd fevm-hardhat-kit
+          yarn hardhat make-deal-proposal \
+            --network localnet \
+            --contract 0xE57f42A0C241FC1Fa3940fE1701DC9C87F01aAF6 \
+            --piece-cid baga6ea4seaqaurso3nekgbu4ujngn4toexboyetcbdo5e2pu6rdymbu2gxpz4hi \
+            --piece-size 256 \
+            --verified-deal false \
+            --label bafybeiamxozxs25gtpfrpbmr7w44ylafvufp6aximtkwx5ecqozpdfcohi \
+            --start-epoch 100000 \
+            --end-epoch 1000000 \
+            --storage-price-per-epoch 0 \
+            --provider-collateral 0 \
+            --client-collateral 0 \
+            --extra-params-version 1 \
+            --location-ref "https://data-depot.lighthouse.storage/api/download/download_car?fileId=6aa1b4e8-6a2d-4cda-90c6-b36c620c1c05.car" \
+            --car-size 216 \
+            --skip-ipni-announce false \
+            --remove-unsealed-copy false 
+          sleep 45
+          
         
 
