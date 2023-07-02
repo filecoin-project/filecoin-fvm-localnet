@@ -35,7 +35,7 @@ jobs:
       - name: Start localnet
         uses: isbang/compose-action@v1.4.1
         with: 
-          compose-file: "./localnet/docker-compose.yml"
+          compose-file: "./localnet/docker-compose.yaml"
           
       - name: Install Hardhat and deps
         run: cd fevm-hardhat-kit; yarn install
