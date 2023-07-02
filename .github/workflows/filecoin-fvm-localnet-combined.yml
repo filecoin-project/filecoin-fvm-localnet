@@ -85,10 +85,11 @@ jobs:
           cache-to: type=gha,mode=max
           
       - name: Summary
+        env:
+          image_name: ${{ fromJSON(steps.build.outputs.metadata)['image.name'] }}
         run: |
-          image_name=${{ fromJSON(steps.build.outputs.metadata)['image.name'] }}
-          echo '### Lotus: ${{ env.LOTUS_TAG }}' >> $GITHUB_STEP_SUMMARY
-          echo 'Image name(s): $image_name' >> $GITHUB_STEP_SUMMARY
+          echo "### Lotus: ${{ env.LOTUS_TAG }}" >> $GITHUB_STEP_SUMMARY
+          echo "Image name(s): $image_name" >> $GITHUB_STEP_SUMMARY
 
   build-boost-image:
     name: Build Boost ${{ inputs.boost_tag }}
