@@ -31,3 +31,6 @@ jobs:
         with:
           repository: filecoin-project/fevm-hardhat-kit
           path: fevm-hardhat-kit
+          
+      - name: Install Hardhat and deps
+        run: cd fevm-hardhat-kit; yarn install
