@@ -62,6 +62,7 @@ jobs:
       - name: Execute client deal contract
         run: |
           cd fevm-hardhat-kit
+          export PRIVATE_KEY=afea7f0655db527a92e2d4b4121f340f58dee4f44fe2ea67fcfdfa723f786a45
           yarn hardhat make-deal-proposal \
             --network localnet \
             --contract 0xE57f42A0C241FC1Fa3940fE1701DC9C87F01aAF6 \
