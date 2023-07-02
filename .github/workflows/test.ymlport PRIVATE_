@@ -21,6 +21,9 @@ jobs:
       digest: ${{ steps.build.outputs.digest }}
 
     steps:
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+        
       - name: Checkout localnet
         uses: actions/checkout@v3
         with:
@@ -37,10 +40,13 @@ jobs:
         with: 
           compose-file: "./localnet/docker-compose.yaml"
           
+      - name: Fund local wallet
+        run: cd localnet; docker compose exec lotus lotus send t410fuir2myuqqjlacl3o3dyw362mx4iftiav3kkb4ja 888
+          
       - name: Install Hardhat and deps
         run: cd fevm-hardhat-kit; yarn install
         
       - name: Deploy contracts to localnet
-        run: cd fevm-hardhat-kit; yarn hardhat deploy --network localnet
+        run: cd fevm-hardhat-kit; PRIVATE_KEY=afea7f0655db527a92e2d4b4121f340f58dee4f44fe2ea67fcfdfa723f786a45 yarn hardhat deploy --network localnet
         
 
