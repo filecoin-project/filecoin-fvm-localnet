@@ -293,7 +293,7 @@ jobs:
 
       - name: Summary
         env:
-          image_name: ${{ fromJSON(steps.build.outputs.metadata)['image.name'] }}
+          image_name: ${{ fromJSON(steps.build2k.outputs.metadata)['image.name'] }}
         run: |
           echo "### FVM Localnet 2k Prepopulated: Lotus: ${{ env.LOTUS_TAG }} Boost: ${{ env.BOOST_TAG }}" >> $GITHUB_STEP_SUMMARY
           echo "Image name(s): $image_name" >> $GITHUB_STEP_SUMMARY
@@ -359,7 +359,7 @@ jobs:
             
       - name: Summary
         env:
-          image_name: ${{ fromJSON(steps.build.outputs.metadata)['image.name'] }}
+          image_name: ${{ fromJSON(steps.build8m.outputs.metadata)['image.name'] }}
         run: |
           echo "### FVM Localnet 8M Prepopulated: Lotus: ${{ env.LOTUS_TAG }} Boost: ${{ env.BOOST_TAG }}" >> $GITHUB_STEP_SUMMARY
           echo "Image name(s): $image_name" >> $GITHUB_STEP_SUMMARY
