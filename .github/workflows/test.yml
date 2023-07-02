@@ -57,6 +57,7 @@ jobs:
           cd fevm-hardhat-kit
           export PRIVATE_KEY=afea7f0655db527a92e2d4b4121f340f58dee4f44fe2ea67fcfdfa723f786a45
           yarn hardhat deploy --network localnet
+          yarn hardhat deploy --network localnet
           sleep 45
           
       - name: Execute client deal contract
