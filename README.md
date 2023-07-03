@@ -1,3 +1,5 @@
+![FVM Localnet build status](https://github.com/filecoin-project/filecoin-fvm-localnet/actions/workflows/filecoin-fvm-localnet-combined.yml/badge.svg)
+
 # Filecoin FVM localnet
 
 Filecoin FVM Localnet is a complete Filecoin [Lotus](https://lotus.filecoin.io/) and [Boost](https://boost.filecoin.io/) Docker image that allows you to spin up a localnet for FVM smart contract development.
