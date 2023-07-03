@@ -23,6 +23,11 @@ jobs:
       digest: ${{ steps.build.outputs.digest }}
 
     steps:
+      - name: Set up node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 18.15
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
         
@@ -49,12 +54,16 @@ jobs:
           sleep 45
           docker compose exec lotus lotus wallet balance ${{ env.ADDRESS }}
           
-      - name: Deploy and execute contract
+      - name: Deploy contracts
         run: |
           cd fevm-hardhat-kit
           yarn install
           yarn hardhat deploy --reset --network localnet
           sleep 45
+          
+      - name: Execute Deal Client contract
+        run: |
+          cd fevm-hardhat-kit
           export DEAL_CLIENT_ADDRESS=`jq .address deployments/localnet/DealClient.json`
           yarn hardhat make-deal-proposal \
             --network localnet \
