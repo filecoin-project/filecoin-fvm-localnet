@@ -58,7 +58,7 @@ jobs:
           export DEAL_CLIENT_ADDRESS=`jq .address deployments/localnet/DealClient.json`
           yarn hardhat make-deal-proposal \
             --network localnet \
-            --contract ${{ env.DEAL_CLIENT_ADDRESS }} \
+            --contract $DEAL_CLIENT_ADDRESS \
             --piece-cid baga6ea4seaqaurso3nekgbu4ujngn4toexboyetcbdo5e2pu6rdymbu2gxpz4hi \
             --piece-size 256 \
             --verified-deal false \
