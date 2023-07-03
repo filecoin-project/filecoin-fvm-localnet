@@ -53,7 +53,7 @@ jobs:
         run: |
           cd fevm-hardhat-kit
           yarn install
-          yarn hardhat deploy --network localnet
+          yarn hardhat deploy --reset --network localnet
           sleep 45
           yarn hardhat make-deal-proposal \
             --network localnet \
