@@ -8,6 +8,8 @@ env:
   REGISTRY: ghcr.io
   NAMESPACE: ${{ github.repository_owner }}
   IMAGE_NAME: filecoin-fvm-localnet
+  ADDRESS: t410fuir2myuqqjlacl3o3dyw362mx4iftiav3kkb4ja
+  PRIVATE_KEY: afea7f0655db527a92e2d4b4121f340f58dee4f44fe2ea67fcfdfa723f786a45
 
 jobs:
   test-filecoin:
@@ -43,27 +45,16 @@ jobs:
       - name: Fund local wallet
         run: |
           cd localnet
-          docker compose exec lotus lotus send t410fuir2myuqqjlacl3o3dyw362mx4iftiav3kkb4ja 888
+          docker compose exec lotus lotus send ${{ env.ADDRESS }} 888
           sleep 45
-          docker compose exec lotus lotus wallet balance t410fuir2myuqqjlacl3o3dyw362mx4iftiav3kkb4ja
+          docker compose exec lotus lotus wallet balance ${{ env.ADDRESS }}
           
-      - name: Install Hardhat and deps
+      - name: Deploy and execute contract
         run: |
           cd fevm-hardhat-kit
           yarn install
-        
-      - name: Deploy contracts to localnet
-        run: |
-          cd fevm-hardhat-kit
-          export PRIVATE_KEY=afea7f0655db527a92e2d4b4121f340f58dee4f44fe2ea67fcfdfa723f786a45
-          yarn hardhat deploy --network localnet
           yarn hardhat deploy --network localnet
           sleep 45
-          
-      - name: Execute client deal contract
-        run: |
-          cd fevm-hardhat-kit
-          export PRIVATE_KEY=afea7f0655db527a92e2d4b4121f340f58dee4f44fe2ea67fcfdfa723f786a45
           yarn hardhat make-deal-proposal \
             --network localnet \
             --contract 0xE57f42A0C241FC1Fa3940fE1701DC9C87F01aAF6 \
