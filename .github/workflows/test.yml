@@ -64,7 +64,7 @@ jobs:
       - name: Execute Deal Client contract
         run: |
           cd fevm-hardhat-kit
-          export DEAL_CLIENT_ADDRESS=`jq .address deployments/localnet/DealClient.json`
+          export DEAL_CLIENT_ADDRESS=`jq -r .address deployments/localnet/DealClient.json`
           yarn hardhat make-deal-proposal \
             --network localnet \
             --contract $DEAL_CLIENT_ADDRESS \
