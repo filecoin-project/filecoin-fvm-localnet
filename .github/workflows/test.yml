@@ -55,9 +55,10 @@ jobs:
           yarn install
           yarn hardhat deploy --reset --network localnet
           sleep 45
+          export DEAL_CLIENT_ADDRESS=`jq .address deployments/localnet/DealClient.json`
           yarn hardhat make-deal-proposal \
             --network localnet \
-            --contract 0xE57f42A0C241FC1Fa3940fE1701DC9C87F01aAF6 \
+            --contract ${{ env.DEAL_CLIENT_ADDRESS }} \
             --piece-cid baga6ea4seaqaurso3nekgbu4ujngn4toexboyetcbdo5e2pu6rdymbu2gxpz4hi \
             --piece-size 256 \
             --verified-deal false \
