@@ -39,6 +39,7 @@ COPY boost/docker/devnet/booster-http/entrypoint.sh /app/entrypoint-booster-http
 COPY boost/docker/devnet/booster-bitswap/entrypoint.sh /app/entrypoint-booster-bitswap.sh
 COPY boost/docker/devnet/lotus/entrypoint.sh /app/entrypoint-lotus.sh
 COPY boost/docker/devnet/lotus-miner/entrypoint.sh /app/entrypoint-lotus-miner.sh
+COPY scripts/* /app/
 
 ## Test everything starts
 RUN lotus -v && lotus-miner -v && lotus-seed -v && \
