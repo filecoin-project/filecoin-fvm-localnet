@@ -1,20 +1,8 @@
 diff --git a/build/params_2k.go b/build/params_2k.go
-index c3199e2d63a..6cca065d18a 100644
+index 4af81f851..622b1a2d6 100644
 --- a/build/params_2k.go
 +++ b/build/params_2k.go
-@@ -61,9 +61,9 @@ var UpgradeSharkHeight = abi.ChainEpoch(-20)
- 
- var UpgradeHyggeHeight = abi.ChainEpoch(-21)
- 
--var UpgradeLightningHeight = abi.ChainEpoch(30)
-+var UpgradeLightningHeight = abi.ChainEpoch(-22)
- 
--var UpgradeThunderHeight = abi.ChainEpoch(1000)
-+var UpgradeThunderHeight = abi.ChainEpoch(-23)
- 
- var DrandSchedule = map[abi.ChainEpoch]DrandEnum{
- 	0: DrandMainnet,
-@@ -125,7 +125,7 @@ func init() {
+@@ -128,7 +128,7 @@ func init() {
  
  }
  
