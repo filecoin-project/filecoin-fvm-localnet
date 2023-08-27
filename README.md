@@ -2,7 +2,7 @@
 
 # Filecoin FVM localnet
 
-Filecoin FVM Localnet is a complete Filecoin [Lotus](https://lotus.filecoin.io/) and [Boost](https://boost.filecoin.io/) Docker image that allows you to spin up a localnet for FVM smart contract development.
+Filecoin FVM Localnet is a complete Filecoin [Lotus](https://lotus.filecoin.io/) and [Boost](https://boost.filecoin.io/) Docker image that allows you to spin up a localnet for FVM smart contract development. You can also run two miners for testing things like replication between SPs.
 
 
 ## System requirements
@@ -31,15 +31,21 @@ Ensure you have [Docker installed](https://docs.docker.com/get-docker/).
     
 1. OPTIONAL: Edit the file `.env` if you wish to optionally run an 8M sector network, otherwise the default 2k sectors will be used
 
-1. Run Docker `compose up`:
+1. To run a single miner instance (default): run Docker `compose up`:
 
     ```sh
     docker compose up
     ```
 
+1. To run two miners and two Boost instances (replication): run:
+
+    ```sh
+    docker compose --profile replication up
+    ```
+
 1. To stop the network type `ctrl-c`.
 
-Once the localnet is started, you can navigate the Boost UI at: `http://localhost:8080`. 
+Once the localnet is started, you can navigate the Boost UI at: `http://localhost:8080`. If you run in replication mode there is a second Boost instance at: `http://localhost:8081`.
 
 ## Metamask and Funding a Wallet
 
@@ -93,5 +99,5 @@ In order to transact with the network, you will need some funds (tFIL) in your w
 
 - This network has a block time of 15 seconds (half the time of Filecoin mainnet).
 
-
+- Running in 'replication' mode will start up a second Lotus miner instance and a second boost instance connected to it. This allows you to test replication between miners, and smart contracts that need two miners to work.
 
