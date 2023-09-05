@@ -16,7 +16,7 @@ if [ ! -f $LOTUS_MINER_PATH/.init.miner ]; then
     lotus send --from $DEFAULT_WALLET $OWNER_WALLET 10
     lotus send --from $DEFAULT_WALLET $WORKER_WALLET 10
     
-    lotus-miner init --owner=$OWNER_WALLET  --worker=$WORKER_WALLET --sector-size=$SECTOR_SIZE --no-local-storage --actor=t01001 --pre-sealed-sectors=$GENESIS_PATH --pre-sealed-metadata=$GENESIS_PATH/pre-seal-t01001.json
+    lotus-miner init --owner=$OWNER_WALLET  --worker=$WORKER_WALLET --sector-size=$SECTOR_SIZE --actor=t01001 --pre-sealed-sectors=$GENESIS_PATH --pre-sealed-metadata=$GENESIS_PATH/pre-seal-t01001.json
     touch $LOTUS_MINER_PATH/.init.miner
     echo Done
 fi
