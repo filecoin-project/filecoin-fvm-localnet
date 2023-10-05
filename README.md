@@ -32,6 +32,9 @@ Ensure you have [Docker installed](https://docs.docker.com/get-docker/).
 1. OPTIONAL: Edit the file `.env` if you wish to optionally run an 8M sector network, otherwise the default 2k sectors will be used
 
 1. To run a single miner instance (default): run Docker `compose up`:
+    ```sh
+    cp .env.example .env
+    ```
 
     ```sh
     docker compose up
@@ -87,7 +90,15 @@ In order to transact with the network, you will need some funds (tFIL) in your w
     bafy2bzacecdtzoq6llosskugezsmtlefxjbjww3pddj42iqgqa3vcalgjm6rs
     ```
    The funds will show up in your metamask wallet in around 45 seconds.
-    
+
+### Fill with Metamask Mnemonic
+ensure the MNEMONIC .env variable contains your seed phrase
+```sh
+docker cp ./scripts lotus:/app/scripts
+docker exec -it lotus bash
+cd scripts
+./fillAccounts.sh
+``` 
 
 ## Usage notes
 
