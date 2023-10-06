@@ -94,10 +94,8 @@ In order to transact with the network, you will need some funds (tFIL) in your w
 ### Fill with Metamask Mnemonic
 ensure the MNEMONIC .env variable contains your seed phrase
 ```sh
-docker cp ./scripts lotus:/app/scripts
-docker exec -it lotus bash
-cd scripts
-./fillAccounts.sh
+docker cp ./scripts lotus:/app/
+docker exec -it lotus bash './scripts/fillAccounts.sh'
 ``` 
 
 ## Usage notes
