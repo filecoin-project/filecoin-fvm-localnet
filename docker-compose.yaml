@@ -37,6 +37,7 @@ services:
       - LOTUS_SKIP_GENESIS_CHECK=_yes_
       - GENESIS_PATH=/var/lib/genesis
       - SECTOR_SIZE=${SECTOR_SIZE}
+      - MNEMONIC=${MNEMONIC}
     restart: unless-stopped
     logging: *default-logging
     volumes:
