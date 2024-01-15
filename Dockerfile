@@ -43,7 +43,7 @@ COPY scripts/* /app/
 
 ## Test everything starts
 RUN lotus -v && lotus-miner -v && lotus-seed -v && \
-      boost -v && booster-http -v && booster-bitswap version
+      boost -v && booster-http -v && booster-bitswap -v
       
 ENTRYPOINT ["/bin/bash"]
 
